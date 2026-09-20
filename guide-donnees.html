@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guide d'Extraction des Données Financières — GARP V5</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        mono: {
+                            bg: '#090a0f',
+                            card: '#12151e',
+                            cardLight: '#1a1f2c',
+                            border: '#262d3d',
+                            text: '#f8fafc',
+                            muted: '#8e9bb0'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #090a0f; color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        .card-mono { background-color: #12151e; border: 1px solid #262d3d; border-radius: 0.75rem; }
+        .input-mono { background-color: #0b0d14; border: 1px solid #262d3d; color: #ffffff; border-radius: 0.5rem; padding: 0.5rem 0.75rem; width: 100%; font-size: 0.875rem; font-weight: 500; }
+        .input-mono:focus { outline: none; border-color: #ffffff; box-shadow: 0 0 0 1px #ffffff; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between p-4 md:p-8 max-w-7xl mx-auto space-y-6">
+
+    <!-- Header Navigation Bar -->
+    <header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-mono-border pb-4">
+        <div class="flex items-center space-x-3">
+            <div class="p-2 bg-white/10 rounded-lg border border-white/20 text-white">
+                <i data-lucide="book-open" class="w-6 h-6"></i>
+            </div>
+            <div>
+                <h1 class="text-lg font-bold text-white tracking-wider flex items-center gap-2">
+                    GUIDE DE RECHERCHE DONNÉES <span class="text-[10px] px-2 py-0.5 rounded bg-white text-black font-extrabold">GARP V5</span>
+                </h1>
+                <p class="text-xs text-mono-muted">Table de correspondance et méthodologie d'extraction des métriques financières.</p>
+            </div>
+        </div>
+
+        <a href="index.html" class="px-3 py-1.5 bg-white text-black font-bold rounded-lg text-xs flex items-center space-x-2 hover:bg-slate-200 transition">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            <span>Retour au Terminal</span>
+        </a>
+    </header>
+
+    <!-- SECTION 1 : EXPLICATION DU MOAT QUANTIFIÉ -->
+    <section class="card-mono p-6 space-y-4">
+        <div class="flex items-center space-x-2 border-b border-mono-border pb-3">
+            <i data-lucide="shield-check" class="w-5 h-5 text-white"></i>
+            <h2 class="font-bold text-sm text-white uppercase tracking-wider">1. Explication du bloc "Moat Quantifié (/5 pts)"</h2>
+        </div>
+        
+        <p class="text-xs text-slate-300 leading-relaxed">
+            Plutôt que d'attribuer une note subjective, le Framework V5 évalue le fossé économique (Moat) d'une entreprise sur 5 critères binaires objectifs (1 point par coche validée) :
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
+            <div class="p-3.5 rounded-lg bg-mono-bg border border-mono-border space-y-1">
+                <span class="font-bold text-white block">☑️ Pricing Power (+1)</span>
+                <span class="text-mono-muted text-[11px]">Capacité à hausser les prix sans perdre de clients. Se vérifie par des marges brutes élevées (> 60%) ou en constante expansion.</span>
+            </div>
+            <div class="p-3.5 rounded-lg bg-mono-bg border border-mono-border space-y-1">
+                <span class="font-bold text-white block">☑️ Switching Costs (+1)</span>
+                <span class="text-mono-muted text-[11px]">Coûts de changement élevés. Il est difficile, long ou risqué pour un client de migrer vers un concurrent (ex: logiciels SaaS intégrés).</span>
+            </div>
+            <div class="p-3.5 rounded-lg bg-mono-bg border border-mono-border space-y-1">
+                <span class="font-bold text-white block">☑️ Network Effects (+1)</span>
+                <span class="text-mono-muted text-[11px]">Effet de réseau : la valeur du produit augmente automatiquement avec le nombre d'utilisateurs (ex: AdTech, plateformes de mise en relation).</span>
+            </div>
+            <div class="p-3.5 rounded-lg bg-mono-bg border border-mono-border space-y-1">
+                <span class="font-bold text-white block">☑️ Cost Advantage (+1)</span>
+                <span class="text-mono-muted text-[11px]">Avantage structurel de coût (économies d'échelle massives, automatisation ou accès exclusif à des ressources à bas coût).</span>
+            </div>
+            <div class="p-3.5 rounded-lg bg-mono-bg border border-mono-border space-y-1 md:col-span-2 lg:col-span-2">
+                <span class="font-bold text-white block">☑️ Brand / IP (+1)</span>
+                <span class="text-mono-muted text-[11px]">Marque forte offrant du pouvoir de négociation, ou protection légale par brevets/propriété intellectuelle empêchant la copie.</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2 : TABLE DE CORRESPONDANCE DES DONNÉES -->
+    <section class="card-mono p-6 space-y-4">
+        <div class="flex items-center space-x-2 border-b border-mono-border pb-3">
+            <i data-lucide="database" class="w-5 h-5 text-white"></i>
+            <h2 class="font-bold text-sm text-white uppercase tracking-wider">2. Emplacement des Métriques sur Yahoo Finance & Baggr</h2>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-xs text-left border-collapse">
+                <thead>
+                    <tr class="border-b border-mono-border text-mono-muted bg-mono-bg">
+                        <th class="p-3">Métrique Financière</th>
+                        <th class="p-3">Onglet Yahoo Finance</th>
+                        <th class="p-3">Calcul & Seuil Optimal</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-mono-border text-slate-300">
+                    <tr class="hover:bg-white/5">
+                        <td class="p-3 font-bold text-white">Dette Nette / EBITDA</td>
+                        <td class="p-3 font-mono text-slate-400">Statistics ➔ Net Debt / EBITDA</td>
+                        <td class="p-3">Cible < 1.0x (Sain). Veto au-delà de 2.5x.</td>
+                    </tr>
+                    <tr class="hover:bg-white/5">
+                        <td class="p-3 font-bold text-white">ROIC 5 ans</td>
+                        <td class="p-3 font-mono text-slate-400">Financials / Key Ratios ➔ ROIC</td>
+                        <td class="p-3">Moyenne 5 ans. Cible > 15% à 25%.</td>
+                    </tr>
+                    <tr class="hover:bg-white/5">
+                        <td class="p-3 font-bold text-white">Marge Brute %</td>
+                        <td class="p-3 font-mono text-slate-400">Financials ➔ Gross Profit / Revenue</td>
+                        <td class="p-3">(Marge Brute / CA) × 100. > 60% en Tech.</td>
+                    </tr>
+                    <tr class="hover:bg-white/5">
+                        <td class="p-3 font-bold text-white">Stock-Based Comp (SBC)</td>
+                        <td class="p-3 font-mono text-slate-400">Cash Flow ➔ Stock-Based Compensation</td>
+                        <td class="p-3">(SBC / Total Revenue) × 100. Pénalité si > 12%.</td>
+                    </tr>
+                    <tr class="hover:bg-white/5">
+                        <td class="p-3 font-bold text-white">Dilution Nette d'Actions</td>
+                        <td class="p-3 font-mono text-slate-400">Financials ➔ Diluted Shares Outstanding</td>
+                        <td class="p-3">Variation annuelle en %. Négatif = Rachats d'actions.</td>
+                    </tr>
+                    <tr class="hover:bg-white/5">
+                        <td class="p-3 font-bold text-white">CAGR BPA / EPS 3Y-5Y</td>
+                        <td class="p-3 font-mono text-slate-400">Analysis ➔ Growth Estimates</td>
+                        <td class="p-3">Croissance composée des bénéfices par action.</td>
+                    </tr>
+                    <tr class="hover:bg-white/5">
+                        <td class="p-3 font-bold text-white">PEG Ratio Brut</td>
+                        <td class="p-3 font-mono text-slate-400">Statistics ➔ PEG Ratio (5 yr expected)</td>
+                        <td class="p-3">P/E divisé par la croissance. Attractif si < 1.0.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- SECTION 3 : ESPACE DE NOTES PERSO ÉVOLUTIF -->
+    <section class="card-mono p-6 space-y-4">
+        <div class="flex justify-between items-center border-b border-mono-border pb-3">
+            <div class="flex items-center space-x-2">
+                <i data-lucide="edit-3" class="w-5 h-5 text-white"></i>
+                <h2 class="font-bold text-sm text-white uppercase tracking-wider">3. Mes Raccourcis & Nouvelles Méthodes de Recherche</h2>
+            </div>
+            <button onclick="saveUserNotes()" class="px-3 py-1.5 bg-white text-black font-bold text-xs rounded hover:bg-slate-200 transition flex items-center space-x-1">
+                <i data-lucide="save" class="w-3.5 h-3.5"></i>
+                <span>Sauvegarder mes notes</span>
+            </button>
+        </div>
+
+        <textarea id="customUserNotes" class="input-mono h-40 text-xs leading-relaxed" placeholder="Ajoutez ici vos nouvelles astuces de recherche, URLs de scrapers, identifiants de comptes ou méthodes perso d'extraction..."></textarea>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-mono-border py-4 text-center text-[11px] text-mono-muted">
+        Guide de Recherche Financière — GARP Terminal V5.0
+    </footer>
+
+    <script>
+        lucide.createIcons();
+        const NOTES_STORAGE_KEY = 'garp_v5_custom_research_notes';
+
+        // Charger les notes sauvegardées
+        window.onload = function() {
+            const savedNotes = localStorage.getItem(NOTES_STORAGE_KEY);
+            if (savedNotes) {
+                document.getElementById('customUserNotes').value = savedNotes;
+            }
+        };
+
+        // Sauvegarder les notes dans LocalStorage
+        function saveUserNotes() {
+            const notes = document.getElementById('customUserNotes').value;
+            localStorage.setItem(NOTES_STORAGE_KEY, notes);
+            alert("Vos notes de recherche ont été sauvegardées avec succès !");
+        }
+    </script>
+</body>
+</html>
