@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terminal d'Analyse Financière & Watchlist — Style Baggr</title>
+    <title>GARP Terminal V5.0 — Framework d'Investissement Institutionnel</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
@@ -14,13 +14,15 @@
             theme: {
                 extend: {
                     colors: {
-                        baggr: {
-                            bg: '#080b11',
-                            card: '#111622',
-                            border: '#1d263b',
-                            accent: '#10b981',
-                            accentHover: '#059669',
-                            muted: '#64748b'
+                        mono: {
+                            bg: '#090a0f',
+                            card: '#12151e',
+                            cardLight: '#1a1f2c',
+                            border: '#262d3d',
+                            text: '#f8fafc',
+                            muted: '#8e9bb0',
+                            accent: '#ffffff',
+                            subtle: '#334155'
                         }
                     }
                 }
@@ -28,14 +30,15 @@
         }
     </script>
     <style>
-        body { background-color: #080b11; color: #f1f5f9; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        .card-baggr { background-color: #111622; border: 1px solid #1d263b; border-radius: 0.75rem; }
-        .input-baggr { background-color: #0b0f19; border: 1px solid #1d263b; color: #f8fafc; border-radius: 0.5rem; padding: 0.5rem 0.75rem; width: 100%; font-size: 0.875rem; }
-        .input-baggr:focus { outline: none; border-color: #10b981; box-shadow: 0 0 0 1px #10b981; }
-        .input-readonly { background-color: #182032; border-color: #2a3754; color: #94a3b8; cursor: not-allowed; }
-        .tab-baggr-active { background-color: #10b981; color: #000000; font-weight: 700; }
-        .tooltip-box { display: none; }
+        body { background-color: #090a0f; color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        .card-mono { background-color: #12151e; border: 1px solid #262d3d; border-radius: 0.75rem; }
+        .input-mono { background-color: #0b0d14; border: 1px solid #262d3d; color: #ffffff; border-radius: 0.5rem; padding: 0.5rem 0.75rem; width: 100%; font-size: 0.875rem; font-weight: 500; }
+        .input-mono:focus { outline: none; border-color: #ffffff; box-shadow: 0 0 0 1px #ffffff; }
+        .input-readonly { background-color: #1a1f2c; border-color: #334155; color: #94a3b8; cursor: not-allowed; }
+        .tab-mono-active { background-color: #ffffff; color: #000000; font-weight: 700; }
+        .badge-mono { background-color: #1a1f2c; border: 1px solid #334155; color: #f8fafc; font-weight: 600; padding: 0.2rem 0.6rem; border-radius: 0.375rem; }
         .has-tooltip:hover .tooltip-box { display: block; }
+        .tooltip-box { display: none; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between">
@@ -43,39 +46,39 @@
     <!-- Toast Notification Container -->
     <div id="toastContainer" class="fixed top-5 right-5 z-50 flex flex-col space-y-2"></div>
 
-    <!-- Main Navigation Header (Baggr Pro Style) -->
-    <header class="border-b border-baggr-border bg-[#0b0f19]/90 backdrop-blur sticky top-0 z-40">
+    <!-- Navigation Header (Monochrome Clean Style) -->
+    <header class="border-b border-mono-border bg-[#090a0f]/95 backdrop-blur sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center space-x-3">
-                <div class="p-2 bg-emerald-500/10 rounded-lg border border-emerald-500/20 text-emerald-400">
-                    <i data-lucide="candlestick-chart" class="w-5 h-5"></i>
+                <div class="p-2 bg-white/10 rounded-lg border border-white/20 text-white">
+                    <i data-lucide="layers" class="w-5 h-5"></i>
                 </div>
                 <div>
-                    <h1 class="text-base font-bold text-white tracking-wide flex items-center gap-2">
-                        BAGGR TERMINAL <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-mono">V4.1 PRO</span>
+                    <h1 class="text-base font-bold text-white tracking-wider flex items-center gap-2">
+                        GARP TERMINAL <span class="text-[10px] px-2 py-0.5 rounded bg-white text-black font-extrabold">V5.0 PRO</span>
                     </h1>
                 </div>
             </div>
 
-            <!-- Header Quick Stats & Watchlist Drawer Toggle -->
-            <div class="flex items-center space-x-4">
-                <div class="hidden md:flex items-center space-x-6 text-xs border-r border-baggr-border pr-4">
+            <!-- Header Quick Stats -->
+            <div class="flex items-center space-x-5">
+                <div class="hidden md:flex items-center space-x-6 text-xs border-r border-mono-border pr-5">
                     <div class="text-right">
-                        <span class="text-baggr-muted block text-[10px] uppercase font-semibold">Complétude Données</span>
-                        <span id="headerCompleteness" class="font-bold text-emerald-400">100%</span>
+                        <span class="text-mono-muted block text-[10px] uppercase font-semibold">Data Confidence</span>
+                        <span id="headerDataConfidence" class="font-bold text-white">100 %</span>
                     </div>
                     <div class="text-right">
-                        <span class="text-baggr-muted block text-[10px] uppercase font-semibold">Piotroski F-Score</span>
-                        <span id="headerPiotroski" class="font-bold text-white">8 / 9</span>
+                        <span class="text-mono-muted block text-[10px] uppercase font-semibold">Business Score</span>
+                        <span id="headerBusinessScore" class="font-bold text-white">0 / 80</span>
                     </div>
                     <div class="text-right">
-                        <span class="text-baggr-muted block text-[10px] uppercase font-semibold">Score GARP Global</span>
-                        <span id="headerScore" class="font-bold text-emerald-400 text-sm">0 / 100</span>
+                        <span class="text-mono-muted block text-[10px] uppercase font-semibold">GARP Score</span>
+                        <span id="headerGarpScore" class="font-bold text-white text-sm">0 / 100</span>
                     </div>
                 </div>
 
-                <button onclick="toggleWatchlistDrawer()" class="px-3 py-1.5 bg-emerald-500 text-black font-bold rounded-lg text-xs flex items-center space-x-2 hover:bg-emerald-400 transition shadow-lg shadow-emerald-500/10">
-                    <i data-lucide="folder-kanban" class="w-4 h-4"></i>
+                <button onclick="toggleWatchlistDrawer()" class="px-3 py-1.5 bg-white text-black font-bold rounded-lg text-xs flex items-center space-x-2 hover:bg-slate-200 transition">
+                    <i data-lucide="bookmark" class="w-4 h-4"></i>
                     <span>Watchlist (<span id="watchlistCount">0</span>)</span>
                 </button>
             </div>
@@ -83,508 +86,645 @@
 
         <!-- Navigation Tabs -->
         <div class="max-w-7xl mx-auto px-4 flex space-x-2 text-xs overflow-x-auto py-2">
-            <button onclick="switchTab('tab-analyse')" id="btn-tab-analyse" class="py-2 px-3 rounded-md tab-baggr-active flex items-center space-x-2 whitespace-nowrap">
-                <i data-lucide="sliders" class="w-3.5 h-3.5"></i><span>1. Évaluation & Ratios</span>
+            <button onclick="switchTab('tab-analyse')" id="btn-tab-analyse" class="py-2 px-3 rounded-md tab-mono-active flex items-center space-x-2 whitespace-nowrap">
+                <i data-lucide="sliders" class="w-3.5 h-3.5"></i><span>1. Évaluation & Framework V5</span>
             </button>
-            <button onclick="switchTab('tab-dcf')" id="btn-tab-dcf" class="py-2 px-3 rounded-md text-baggr-muted hover:text-white flex items-center space-x-2 whitespace-nowrap">
-                <i data-lucide="grid_3x3" class="w-3.5 h-3.5"></i><span>2. DCF & Sensibilité</span>
+            <button onclick="switchTab('tab-dcf')" id="btn-tab-dcf" class="py-2 px-3 rounded-md text-mono-muted hover:text-white flex items-center space-x-2 whitespace-nowrap">
+                <i data-lucide="line-chart" class="w-3.5 h-3.5"></i><span>2. DCF Multi-Scénarios</span>
             </button>
-            <button onclick="switchTab('tab-allocation')" id="btn-tab-allocation" class="py-2 px-3 rounded-md text-baggr-muted hover:text-white flex items-center space-x-2 whitespace-nowrap">
-                <i data-lucide="pie-chart" class="w-3.5 h-3.5"></i><span>3. Allocation Progressive</span>
+            <button onclick="switchTab('tab-allocation')" id="btn-tab-allocation" class="py-2 px-3 rounded-md text-mono-muted hover:text-white flex items-center space-x-2 whitespace-nowrap">
+                <i data-lucide="pie-chart" class="w-3.5 h-3.5"></i><span>3. Position Sizing Dynamic</span>
             </button>
-            <button onclick="switchTab('tab-compare')" id="btn-tab-compare" class="py-2 px-3 rounded-md text-baggr-muted hover:text-white flex items-center space-x-2 whitespace-nowrap">
-                <i data-lucide="columns" class="w-3.5 h-3.5"></i><span>4. Comparateur Multi-Titres</span>
+            <button onclick="switchTab('tab-portfolio')" id="btn-tab-portfolio" class="py-2 px-3 rounded-md text-mono-muted hover:text-white flex items-center space-x-2 whitespace-nowrap">
+                <i data-lucide="briefcase" class="w-3.5 h-3.5"></i><span>4. Portfolio Fit & Concentration</span>
             </button>
-            <button onclick="switchTab('tab-history')" id="btn-tab-history" class="py-2 px-3 rounded-md text-baggr-muted hover:text-white flex items-center space-x-2 whitespace-nowrap">
-                <i data-lucide="history" class="w-3.5 h-3.5"></i><span>5. Historique & Notes</span>
+            <button onclick="switchTab('tab-compare')" id="btn-tab-compare" class="py-2 px-3 rounded-md text-mono-muted hover:text-white flex items-center space-x-2 whitespace-nowrap">
+                <i data-lucide="columns" class="w-3.5 h-3.5"></i><span>5. Comparateur</span>
+            </button>
+            <button onclick="switchTab('tab-history')" id="btn-tab-history" class="py-2 px-3 rounded-md text-mono-muted hover:text-white flex items-center space-x-2 whitespace-nowrap">
+                <i data-lucide="history" class="w-3.5 h-3.5"></i><span>6. Évolution du Score</span>
             </button>
         </div>
     </header>
 
-    <!-- Side Watchlist Drawer (Inspired by Image 2) -->
-    <div id="watchlistDrawer" class="fixed inset-y-0 right-0 w-80 bg-[#0d121f] border-l border-baggr-border shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col">
-        <div class="p-4 border-b border-baggr-border flex justify-between items-center bg-[#080b11]">
+    <!-- Side Watchlist Drawer -->
+    <div id="watchlistDrawer" class="fixed inset-y-0 right-0 w-80 bg-[#0d1017] border-l border-mono-border shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col">
+        <div class="p-4 border-b border-mono-border flex justify-between items-center bg-[#090a0f]">
             <div class="flex items-center space-x-2">
-                <i data-lucide="bookmark" class="w-4 h-4 text-emerald-400"></i>
-                <h3 class="font-bold text-sm text-white uppercase tracking-wider">Ma Watchlist</h3>
+                <i data-lucide="bookmark" class="w-4 h-4 text-white"></i>
+                <h3 class="font-bold text-sm text-white uppercase tracking-wider">Watchlist</h3>
             </div>
-            <button onclick="toggleWatchlistDrawer()" class="text-baggr-muted hover:text-white">
+            <button onclick="toggleWatchlistDrawer()" class="text-mono-muted hover:text-white">
                 <i data-lucide="x" class="w-5 h-5"></i>
             </button>
         </div>
-        <div class="p-2 text-xs bg-amber-500/10 border-b border-amber-500/20 text-amber-300 flex items-center space-x-2 px-4 py-2">
-            <i data-lucide="alert-circle" class="w-4 h-4 shrink-0"></i>
+        <div class="p-2 text-xs bg-white/5 border-b border-white/10 text-slate-300 flex items-center space-x-2 px-4 py-2">
+            <i data-lucide="alert-triangle" class="w-4 h-4 shrink-0 text-white"></i>
             <span>⚠️ INVESTIR PRÉSENTE UN RISQUE DE PERTE EN CAPITAL.</span>
         </div>
-        <div id="watchlistContent" class="flex-1 overflow-y-auto p-4 space-y-2">
-            <!-- Dynamically Injected Cards -->
-        </div>
+        <div id="watchlistContent" class="flex-1 overflow-y-auto p-4 space-y-2"></div>
     </div>
 
     <!-- Main Workspace Container -->
     <main class="max-w-7xl mx-auto px-4 py-6 flex-1 w-full space-y-6">
 
-        <!-- Red Flags Warning Banner -->
-        <div id="redFlagsBanner" class="hidden p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300">
-            <div class="flex items-start space-x-3">
-                <i data-lucide="shield-alert" class="w-5 h-5 text-rose-400 shrink-0 mt-0.5"></i>
-                <div>
-                    <h3 class="font-bold text-xs uppercase tracking-wider text-rose-200">Alerte Red Flags - Veto Fondamental Déclenché</h3>
-                    <ul id="redFlagsList" class="list-disc list-inside text-xs mt-1 space-y-1 text-rose-300"></ul>
+        <!-- EXECUTIVE DECISION SUMMARY BANNER (SECTION 13 UX UPDATE) -->
+        <div class="card-mono p-5 bg-gradient-to-r from-mono-card to-mono-cardLight space-y-4">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div class="flex items-center space-x-4">
+                    <div class="relative flex items-center justify-center">
+                        <svg class="w-20 h-20 transform -rotate-90">
+                            <circle cx="40" cy="40" r="34" stroke="#262d3d" stroke-width="6" fill="transparent" />
+                            <circle id="scoreCircle" cx="40" cy="40" r="34" stroke="#ffffff" stroke-width="6" stroke-dasharray="213.62" stroke-dashoffset="40" fill="transparent" class="transition-all duration-700" />
+                        </svg>
+                        <div class="absolute flex flex-col items-center">
+                            <span id="scoreDisplay" class="text-xl font-black text-white">0</span>
+                            <span class="text-[8px] text-mono-muted font-bold">/ 100</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div id="statusBadge" class="inline-block px-3 py-1 rounded text-xs font-black bg-white text-black tracking-wide">
+                            ANALYSE EN COURS
+                        </div>
+                        <h2 id="summaryTitle" class="text-base font-bold text-white mt-1">AppLovin Corporation (APP)</h2>
+                        <p id="summaryText" class="text-xs text-mono-muted">Analyse d'entreprise selon l'architecture V5 à 5 blocs indépendants.</p>
+                    </div>
+                </div>
+
+                <!-- Sub-scores Summary -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs w-full md:w-auto">
+                    <div class="p-2.5 rounded border border-mono-border bg-mono-bg">
+                        <span class="text-mono-muted block text-[10px]">BUSINESS SCORE</span>
+                        <span id="scoreBusinessSummary" class="font-bold text-white text-sm">0 / 80</span>
+                    </div>
+                    <div class="p-2.5 rounded border border-mono-border bg-mono-bg">
+                        <span class="text-mono-muted block text-[10px]">VALUATION SCORE</span>
+                        <span id="scoreValuationSummary" class="font-bold text-white text-sm">0 / 20</span>
+                    </div>
+                    <div class="p-2.5 rounded border border-mono-border bg-mono-bg">
+                        <span class="text-mono-muted block text-[10px]">RISKS & VETO</span>
+                        <span id="riskLevelSummary" class="font-bold text-white text-sm">LOW</span>
+                    </div>
+                    <div class="p-2.5 rounded border border-mono-border bg-mono-bg">
+                        <span class="text-mono-muted block text-[10px]">DATA CONFIDENCE</span>
+                        <span id="dataConfidenceSummary" class="font-bold text-white text-sm">100 %</span>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- TAB 1: EVALUATION & RATIOS -->
+        <!-- Red Flags Warning Banner -->
+        <div id="redFlagsBanner" class="hidden p-4 rounded-xl bg-white/10 border border-white/20 text-white">
+            <div class="flex items-start space-x-3">
+                <i data-lucide="shield-alert" class="w-5 h-5 text-white shrink-0 mt-0.5"></i>
+                <div>
+                    <h3 class="font-bold text-xs uppercase tracking-wider text-white">Alerte Red Flags - Veto Fondamental Déclenché</h3>
+                    <ul id="redFlagsList" class="list-disc list-inside text-xs mt-1 space-y-1 text-slate-300"></ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 1: EVALUATION & FRAMEWORK V5 -->
         <div id="tab-analyse" class="tab-content space-y-6">
 
-            <!-- Top Header Inputs & Score Display -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Stock Info -->
-                <div class="card-baggr p-5 lg:col-span-2 space-y-4">
-                    <div class="flex justify-between items-center border-b border-baggr-border pb-3">
-                        <h2 class="font-bold text-sm text-white flex items-center space-x-2">
-                            <i data-lucide="building-2" class="w-4 h-4 text-emerald-400"></i>
-                            <span>Identité du Titre & Paramètres</span>
-                        </h2>
-                        <span class="text-[11px] text-baggr-muted">Ancre Données : Baggr / Yahoo</span>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs">
-                        <div>
-                            <label class="font-semibold text-slate-300 mb-1 block">Ticker</label>
-                            <input type="text" id="inputTicker" value="APP" class="input-baggr uppercase font-bold text-emerald-400" oninput="calculateAll()">
-                        </div>
-                        <div>
-                            <label class="font-semibold text-slate-300 mb-1 block">Nom Entreprise</label>
-                            <input type="text" id="inputName" value="AppLovin Corporation" class="input-baggr" oninput="calculateAll()">
-                        </div>
-                        <div>
-                            <label class="font-semibold text-slate-300 mb-1 block">Devise</label>
-                            <select id="inputCurrency" class="input-baggr" onchange="calculateAll()">
-                                <option value="USD">USD ($)</option>
-                                <option value="EUR">EUR (€)</option>
-                                <option value="CAD">CAD ($)</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="font-semibold text-slate-300 mb-1 block">Secteur</label>
-                            <select id="inputSector" class="input-baggr" onchange="calculateAll()">
-                                <option value="tech">Tech / AdTech / Software</option>
-                                <option value="industry">Industrie / Aéronautique</option>
-                                <option value="consumer">Consommation / Retail</option>
-                            </select>
-                        </div>
-                    </div>
+            <!-- Identité & Ticker Input -->
+            <div class="card-mono p-5 space-y-4">
+                <div class="flex justify-between items-center border-b border-mono-border pb-3">
+                    <h2 class="font-bold text-sm text-white flex items-center space-x-2">
+                        <i data-lucide="building-2" class="w-4 h-4 text-white"></i>
+                        <span>1. Informations Générales & Saisie</span>
+                    </h2>
+                    <span class="text-[10px] text-mono-muted">Dernière Mise à Jour : <span id="lastUpdateDate">20/09/2026</span></span>
                 </div>
 
-                <!-- Score Gauge Badge -->
-                <div class="card-baggr p-5 flex flex-col items-center justify-center text-center relative overflow-hidden">
-                    <div class="text-[10px] font-semibold text-baggr-muted uppercase tracking-wider mb-1">Score GARP V4.1 Overall</div>
-                    <div class="relative flex items-center justify-center my-1">
-                        <svg class="w-28 h-28 transform -rotate-90">
-                            <circle cx="56" cy="56" r="48" stroke="#1d263b" stroke-width="8" fill="transparent" />
-                            <circle id="scoreCircle" cx="56" cy="56" r="48" stroke="#10b981" stroke-width="8" stroke-dasharray="301.59" stroke-dashoffset="60" fill="transparent" class="transition-all duration-700" />
-                        </svg>
-                        <div class="absolute flex flex-col items-center">
-                            <span id="scoreDisplay" class="text-2xl font-black text-white">0</span>
-                            <span class="text-[9px] text-baggr-muted font-bold">/ 100 PTS</span>
-                        </div>
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-4 text-xs">
+                    <div>
+                        <label class="font-semibold text-slate-300 mb-1 block">Ticker / Symbole</label>
+                        <input type="text" id="inputTicker" value="APP" class="input-mono uppercase font-bold text-white" oninput="calculateAll()">
                     </div>
-                    <div id="verdictBadge" class="mt-1 px-3 py-0.5 rounded-full text-xs font-bold bg-slate-800 text-slate-300 border border-slate-700">
-                        ANALYSE EN COURS
+                    <div>
+                        <label class="font-semibold text-slate-300 mb-1 block">Nom Entreprise</label>
+                        <input type="text" id="inputName" value="AppLovin Corporation" class="input-mono" oninput="calculateAll()">
+                    </div>
+                    <div>
+                        <label class="font-semibold text-slate-300 mb-1 block">Devise</label>
+                        <select id="inputCurrency" class="input-mono" onchange="calculateAll()">
+                            <option value="USD">USD ($)</option>
+                            <option value="EUR">EUR (€)</option>
+                            <option value="CAD">CAD ($)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="font-semibold text-slate-300 mb-1 block">Secteur</label>
+                        <select id="inputSector" class="input-mono" onchange="calculateAll()">
+                            <option value="tech">Tech / Software / AdTech</option>
+                            <option value="industry">Industrie / Aéronautique</option>
+                            <option value="consumer">Consommation / Retail</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="font-semibold text-slate-300 mb-1 block">Cours Actuel</label>
+                        <input type="number" step="0.01" id="dcfCurrentPrice" value="510.00" class="input-mono font-bold text-white" oninput="calculateAll(); calculateDcfMatrix();">
                     </div>
                 </div>
             </div>
 
-            <!-- Form Breakdown : 3 Pillars -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Architecture V5 : 4 Blocks (Quality, Growth, Financial, Valuation) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
-                <!-- PILIER 1 : QUALITÉ & MOAT (/40) -->
-                <div class="card-baggr p-5 space-y-4">
-                    <div class="flex justify-between items-center border-b border-baggr-border pb-2">
-                        <h3 class="font-bold text-xs text-emerald-400 flex items-center space-x-2">
+                <!-- BLOC 1 : QUALITÉ BUSINESS (/40) -->
+                <div class="card-mono p-5 space-y-4">
+                    <div class="flex justify-between items-center border-b border-mono-border pb-2">
+                        <h3 class="font-bold text-xs text-white flex items-center space-x-2">
                             <i data-lucide="shield-check" class="w-4 h-4"></i>
-                            <span>1. Qualité & Moat</span>
+                            <span>1. Qualité (/40)</span>
                         </h3>
-                        <span id="scorePillar1" class="text-xs font-extrabold text-white bg-baggr-bg px-2 py-0.5 rounded border border-baggr-border">0 / 40</span>
+                        <span id="scoreQuality" class="text-xs font-black text-white bg-mono-bg px-2 py-0.5 rounded border border-mono-border">0 / 40</span>
                     </div>
 
                     <div class="space-y-3 text-xs">
-                        <div class="has-tooltip relative">
+                        <div>
                             <div class="flex justify-between text-slate-300 mb-1">
-                                <span class="flex items-center gap-1">ROIC Moyen 5 ans (%) <i data-lucide="help-circle" class="w-3 h-3 text-baggr-muted"></i></span>
+                                <span>ROIC Moyen 5Y (%) [Max 12]</span>
                             </div>
-                            <input type="number" step="0.1" id="inputRoic" value="28.5" class="input-baggr" oninput="calculateAll()">
-                            <div class="tooltip-box absolute z-20 p-2 bg-slate-900 border border-slate-700 text-[10px] rounded text-slate-200 mt-1">Rentabilité des capitaux investis. Seuil cible &gt; 15%.</div>
+                            <input type="number" step="0.1" id="inputRoic" value="28.5" class="input-mono" oninput="calculateAll()">
                         </div>
 
+                        <div>
+                            <div class="flex justify-between text-slate-300 mb-1">
+                                <span>Marge Brute % & Trend [Max 8]</span>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <input type="number" step="0.1" id="inputGrossMargin" value="87.5" class="input-mono" oninput="calculateAll()">
+                                <select id="inputGrossMarginTrend" class="input-mono" onchange="calculateAll()">
+                                    <option value="expanding">Expansion</option>
+                                    <option value="stable">Stable</option>
+                                    <option value="contracting">Baisse</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-slate-300 mb-1">
+                                <span>Marge FCF (%) [Max 5]</span>
+                            </div>
+                            <input type="number" step="0.1" id="inputFcfMargin" value="57.1" class="input-mono" oninput="calculateAll()">
+                        </div>
+
+                        <!-- MOAT QUANTIFIED BREAKDOWN (SECTION 8) -->
+                        <div class="p-3 rounded border border-mono-border bg-mono-bg space-y-2">
+                            <span class="font-bold text-white block">Moat Quantifié (/5 pts)</span>
+                            <div class="grid grid-cols-1 gap-1.5 text-[11px]">
+                                <label class="flex items-center space-x-2"><input type="checkbox" id="moatPricing" checked onchange="calculateAll()"> <span>Pricing Power (+1)</span></label>
+                                <label class="flex items-center space-x-2"><input type="checkbox" id="moatSwitching" checked onchange="calculateAll()"> <span>Switching Costs (+1)</span></label>
+                                <label class="flex items-center space-x-2"><input type="checkbox" id="moatNetwork" checked onchange="calculateAll()"> <span>Network Effects (+1)</span></label>
+                                <label class="flex items-center space-x-2"><input type="checkbox" id="moatCost" onchange="calculateAll()"> <span>Cost Advantage (+1)</span></label>
+                                <label class="flex items-center space-x-2"><input type="checkbox" id="moatBrand" checked onchange="calculateAll()"> <span>Brand / IP (+1)</span></label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-slate-300 mb-1">
+                                <span>ROE ou ROA 5Y (%) [Max 2]</span>
+                            </div>
+                            <input type="number" step="0.1" id="inputRoe" value="65.0" class="input-mono" oninput="calculateAll()">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BLOC 2 : CROISSANCE & EPS QUALITY (/20) -->
+                <div class="card-mono p-5 space-y-4">
+                    <div class="flex justify-between items-center border-b border-mono-border pb-2">
+                        <h3 class="font-bold text-xs text-white flex items-center space-x-2">
+                            <i data-lucide="trending-up" class="w-4 h-4"></i>
+                            <span>2. Croissance (/20)</span>
+                        </h3>
+                        <span id="scoreGrowth" class="text-xs font-black text-white bg-mono-bg px-2 py-0.5 rounded border border-mono-border">0 / 20</span>
+                    </div>
+
+                    <div class="space-y-3 text-xs">
                         <div>
                             <div class="flex justify-between text-slate-300 mb-1">
                                 <span>Croissance Organique CA 5Y (%)</span>
                             </div>
-                            <input type="number" step="0.1" id="inputOrgGrowth" value="56.0" class="input-baggr" oninput="calculateAll()">
+                            <input type="number" step="0.1" id="inputOrgGrowth" value="56.0" class="input-mono" oninput="calculateAll()">
+                        </div>
+
+                        <!-- EPS & FCF/SHARE GROWTH (SECTION 6) -->
+                        <div>
+                            <div class="flex justify-between text-slate-300 mb-1">
+                                <span>CAGR BPA / EPS 3Y-5Y (%)</span>
+                            </div>
+                            <input type="number" step="0.1" id="inputEpsGrowth" value="62.0" class="input-mono" oninput="calculateAll()">
                         </div>
 
                         <div>
                             <div class="flex justify-between text-slate-300 mb-1">
-                                <span>Marge Brute Actuelle (%)</span>
+                                <span>CAGR FCF/Share 3Y-5Y (%)</span>
                             </div>
-                            <input type="number" step="0.1" id="inputGrossMargin" value="87.5" class="input-baggr" oninput="calculateAll()">
+                            <input type="number" step="0.1" id="inputFcfShareGrowth" value="65.4" class="input-mono" oninput="calculateAll()">
                         </div>
 
-                        <div>
-                            <div class="flex justify-between text-slate-300 mb-1">
-                                <span>Évolution Marge Brute 5Y</span>
+                        <!-- GROWTH QUALITY SCORE (SECTION 9) -->
+                        <div class="p-3 rounded border border-mono-border bg-mono-bg space-y-2">
+                            <span class="font-bold text-white block">Growth Quality Score</span>
+                            <div class="text-[11px] space-y-1 text-slate-300">
+                                <div class="flex justify-between"><span>EPS vs CA Alignment:</span><span id="growthAlignBadge" class="font-bold text-white">Excellente</span></div>
+                                <div class="flex justify-between"><span>Source Croissance:</span><span class="font-bold text-white">Organique</span></div>
                             </div>
-                            <select id="inputGrossMarginTrend" class="input-baggr" onchange="calculateAll()">
-                                <option value="expanding">En expansion / Forte</option>
-                                <option value="stable">Stable</option>
-                                <option value="contracting">En contraction</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <div class="flex justify-between text-slate-300 mb-1">
-                                <span>Marge Free Cash Flow (%)</span>
-                            </div>
-                            <input type="number" step="0.1" id="inputFcfMargin" value="57.1" class="input-baggr" oninput="calculateAll()">
-                        </div>
-
-                        <div>
-                            <div class="flex justify-between text-slate-300 mb-1">
-                                <span>ROE 5 ans (%)</span>
-                            </div>
-                            <input type="number" step="0.1" id="inputRoe" value="65.0" class="input-baggr" oninput="calculateAll()">
-                        </div>
-
-                        <div>
-                            <div class="flex justify-between text-slate-300 mb-1">
-                                <span>Avantage Concurrentiel (Moat)</span>
-                            </div>
-                            <select id="inputMoat" class="input-baggr" onchange="calculateAll()">
-                                <option value="wide">Solide / Wide Moat (Axon AI Engine)</option>
-                                <option value="narrow">Modéré / Narrow Moat</option>
-                                <option value="none">Aucun Moat</option>
-                            </select>
                         </div>
                     </div>
                 </div>
 
-                <!-- PILIER 2 : VALORISATION & CIBLE (/40) -->
-                <div class="card-baggr p-5 space-y-4">
-                    <div class="flex justify-between items-center border-b border-baggr-border pb-2">
-                        <h3 class="font-bold text-xs text-blue-400 flex items-center space-x-2">
-                            <i data-lucide="badge-dollar-sign" class="w-4 h-4"></i>
-                            <span>2. Valorisation & Cible</span>
-                        </h3>
-                        <span id="scorePillar2" class="text-xs font-extrabold text-white bg-baggr-bg px-2 py-0.5 rounded border border-baggr-border">0 / 40</span>
-                    </div>
-
-                    <div class="space-y-3 text-xs">
-                        <div>
-                            <div class="flex justify-between text-slate-300 mb-1">
-                                <span>PEG Ratio Brut</span>
-                            </div>
-                            <input type="number" step="0.01" id="inputPeg" value="0.85" class="input-baggr" oninput="calculateAll()">
-                        </div>
-
-                        <div>
-                            <div class="flex justify-between text-slate-300 mb-1">
-                                <span>PEG Ajusté par Qualité (ROIC)</span>
-                            </div>
-                            <input type="text" id="inputAdjustedPeg" value="--" class="input-baggr input-readonly" readonly>
-                        </div>
-
-                        <div>
-                            <div class="flex justify-between text-slate-300 mb-1">
-                                <span>FCF Yield (%)</span>
-                            </div>
-                            <input type="number" step="0.1" id="inputFcfYield" value="5.8" class="input-baggr" oninput="calculateAll()">
-                        </div>
-
-                        <div>
-                            <div class="flex justify-between text-slate-300 mb-1">
-                                <span>Marge Sécurité DCF Base (%)</span>
-                            </div>
-                            <input type="number" step="0.1" id="inputDcfMargin" value="22.5" class="input-baggr font-bold text-emerald-400" oninput="calculateAll()">
-                        </div>
-
-                        <div>
-                            <div class="flex justify-between text-slate-300 mb-1">
-                                <span>P/E vs Moyenne Historique 5Y</span>
-                            </div>
-                            <select id="inputPeVsHist" class="input-baggr" onchange="calculateAll()">
-                                <option value="discount">En décote vs historique</option>
-                                <option value="fair" selected>Aligné sur la moyenne</option>
-                                <option value="premium">En surcote importante</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <div class="flex justify-between text-slate-300 mb-1">
-                                <span>CAPEX / Operating CF (%)</span>
-                            </div>
-                            <input type="number" step="0.1" id="inputCapexOcf" value="0.4" class="input-baggr" oninput="calculateAll()">
-                        </div>
-
-                        <div>
-                            <div class="flex justify-between text-slate-300 mb-1">
-                                <span>Qualité & Visibilité Croissance</span>
-                            </div>
-                            <select id="inputGrowthQual" class="input-baggr" onchange="calculateAll()">
-                                <option value="high">Élevée (Logiciel, AdTech, SaaS)</option>
-                                <option value="medium">Moyenne (Cyclique modéré)</option>
-                                <option value="low">Faible (Cyclique lourd)</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- PILIER 3 : BILAN & CAPITAL (/20) -->
-                <div class="card-baggr p-5 space-y-4">
-                    <div class="flex justify-between items-center border-b border-baggr-border pb-2">
-                        <h3 class="font-bold text-xs text-purple-400 flex items-center space-x-2">
+                <!-- BLOC 3 : SANTÉ FINANCIÈRE & SBC (/20) -->
+                <div class="card-mono p-5 space-y-4">
+                    <div class="flex justify-between items-center border-b border-mono-border pb-2">
+                        <h3 class="font-bold text-xs text-white flex items-center space-x-2">
                             <i data-lucide="landmark" class="w-4 h-4"></i>
-                            <span>3. Bilan & Capital</span>
+                            <span>3. Santé Financière (/20)</span>
                         </h3>
-                        <span id="scorePillar3" class="text-xs font-extrabold text-white bg-baggr-bg px-2 py-0.5 rounded border border-baggr-border">0 / 20</span>
+                        <span id="scoreFinancial" class="text-xs font-black text-white bg-mono-bg px-2 py-0.5 rounded border border-mono-border">0 / 20</span>
                     </div>
 
                     <div class="space-y-3 text-xs">
                         <div>
                             <div class="flex justify-between text-slate-300 mb-1">
-                                <span>Dette Nette / EBITDA (x)</span>
+                                <span>Dette Nette / EBITDA (x) [Max 8]</span>
                             </div>
-                            <input type="number" step="0.1" id="inputNetDebtEbitda" value="0.2" class="input-baggr" oninput="calculateAll()">
+                            <input type="number" step="0.1" id="inputNetDebtEbitda" value="0.2" class="input-mono" oninput="calculateAll()">
+                        </div>
+
+                        <!-- SBC ANALYSIS & DILUTION NETTE (SECTION 7) -->
+                        <div>
+                            <div class="flex justify-between text-slate-300 mb-1">
+                                <span>Stock-Based Comp / CA (%)</span>
+                            </div>
+                            <input type="number" step="0.1" id="inputSbcRevenue" value="6.5" class="input-mono" oninput="calculateAll()">
                         </div>
 
                         <div>
                             <div class="flex justify-between text-slate-300 mb-1">
-                                <span>Variation Shares 5Y (%/an)</span>
+                                <span>Variation Nette Actions (%/an) [Max 7]</span>
                             </div>
-                            <input type="number" step="0.1" id="inputShareChange" value="-2.1" class="input-baggr" oninput="calculateAll()">
+                            <input type="number" step="0.1" id="inputNetShareChange" value="-2.1" class="input-mono" oninput="calculateAll()">
                         </div>
 
                         <div>
                             <div class="flex justify-between text-slate-300 mb-1">
-                                <span>Test OCF > EPS Net Income</span>
+                                <span>OCF vs Net Income [Max 5]</span>
                             </div>
-                            <select id="inputOcfVsEps" class="input-baggr" onchange="calculateAll()">
-                                <option value="pass">Validé (True Cash Flow)</option>
-                                <option value="fail">Échoué (Bénéfices papier)</option>
+                            <select id="inputOcfVsEps" class="input-mono" onchange="calculateAll()">
+                                <option value="pass">Validé (OCF > Net Income)</option>
+                                <option value="fail">Échoué (Bénéfices Papier)</option>
                             </select>
                         </div>
 
-                        <!-- Piotroski F-Score Summary -->
-                        <div class="p-3 rounded-lg bg-baggr-bg border border-baggr-border flex justify-between items-center">
-                            <span class="text-slate-300 font-semibold">Piotroski F-Score (0-9):</span>
-                            <span id="piotroskiScoreBadge" class="font-bold text-emerald-400 text-sm">8 / 9 (Fort)</span>
+                        <!-- SECTION 2 : RENOMMAGE FINANCIAL STRENGTH SCORE -->
+                        <div class="p-3 rounded border border-mono-border bg-mono-bg flex justify-between items-center">
+                            <span class="text-slate-300 font-semibold text-[11px]">Financial Strength Score:</span>
+                            <span id="financialStrengthBadge" class="font-bold text-white">8 / 9</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BLOC 4 : VALORISATION (/20) -->
+                <div class="card-mono p-5 space-y-4">
+                    <div class="flex justify-between items-center border-b border-mono-border pb-2">
+                        <h3 class="font-bold text-xs text-white flex items-center space-x-2">
+                            <i data-lucide="badge-dollar-sign" class="w-4 h-4"></i>
+                            <span>4. Valorisation (/20)</span>
+                        </h3>
+                        <span id="scoreValuation" class="text-xs font-black text-white bg-mono-bg px-2 py-0.5 rounded border border-mono-border">0 / 20</span>
+                    </div>
+
+                    <div class="space-y-3 text-xs">
+                        <div>
+                            <div class="flex justify-between text-slate-300 mb-1">
+                                <span>Marge Sécurité DCF Base (%) [Max 7]</span>
+                            </div>
+                            <input type="number" step="0.1" id="inputDcfMargin" value="22.5" class="input-mono font-bold text-white" oninput="calculateAll()">
                         </div>
 
-                        <div class="pt-2">
-                            <button onclick="saveSnapshot()" class="w-full py-2 bg-emerald-500 hover:bg-emerald-400 text-black font-bold rounded-lg flex items-center justify-center space-x-2 transition shadow-lg shadow-emerald-500/20">
-                                <i data-lucide="save" class="w-4 h-4"></i>
-                                <span>Sauvegarder Snapshot</span>
-                            </button>
+                        <div>
+                            <div class="flex justify-between text-slate-300 mb-1">
+                                <span>PEG Ratio Brut [Max 4]</span>
+                            </div>
+                            <input type="number" step="0.01" id="inputPeg" value="0.85" class="input-mono" oninput="calculateAll()">
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-slate-300 mb-1">
+                                <span>FCF Yield (%) [Max 3]</span>
+                            </div>
+                            <input type="number" step="0.1" id="inputFcfYield" value="5.8" class="input-mono" oninput="calculateAll()">
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-slate-300 mb-1">
+                                <span>P/E vs Moyenne Historique 5Y [Max 2]</span>
+                            </div>
+                            <select id="inputPeVsHist" class="input-mono" onchange="calculateAll()">
+                                <option value="discount">Décote vs Historique</option>
+                                <option value="fair" selected>Aligné</option>
+                                <option value="premium">Surcote Forte</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-slate-300 mb-1">
+                                <span>CAPEX / Operating CF (%) [Max 2]</span>
+                            </div>
+                            <input type="number" step="0.1" id="inputCapexOcf" value="0.4" class="input-mono" oninput="calculateAll()">
+                        </div>
+
+                        <!-- SECTION 5 : ADVANCED METRICS DISPLAY -->
+                        <div class="p-2.5 rounded border border-mono-border bg-mono-bg text-[10px] space-y-1 text-slate-400">
+                            <div class="flex justify-between"><span>PEG Ajusté (ROIC):</span><span id="advancedAdjustedPeg" class="font-mono text-white">0.45</span></div>
+                            <div class="flex justify-between"><span>EV / FCF Estimé:</span><span id="advancedEvFcf" class="font-mono text-white">17.2x</span></div>
                         </div>
                     </div>
                 </div>
 
             </div>
 
-            <!-- AUDIT BREAKDOWN (FORCES VS FAIBLESSES) -->
-            <div class="card-baggr p-5 space-y-4">
-                <h3 class="font-bold text-xs text-slate-300 uppercase tracking-wider flex items-center space-x-2">
-                    <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
-                    <span>Explicabilité du Score — Forces vs Faiblesses</span>
-                </h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-                    <div class="p-4 rounded-xl bg-emerald-500/5 border border-emerald-500/20">
-                        <h4 class="font-bold text-emerald-400 uppercase tracking-wider mb-2 flex items-center space-x-2">
-                            <i data-lucide="thumbs-up" class="w-4 h-4"></i>
-                            <span>Forces Identifiées</span>
-                        </h4>
-                        <ul id="listStrengths" class="list-disc list-inside space-y-1 text-slate-300"></ul>
-                    </div>
-                    <div class="p-4 rounded-xl bg-amber-500/5 border border-amber-500/20">
-                        <h4 class="font-bold text-amber-400 uppercase tracking-wider mb-2 flex items-center space-x-2">
-                            <i data-lucide="alert-circle" class="w-4 h-4"></i>
-                            <span>Points de Vigilance / Faiblesses</span>
-                        </h4>
-                        <ul id="listWeaknesses" class="list-disc list-inside space-y-1 text-slate-300"></ul>
+            <!-- AUDIT BREAKDOWN & THESIS -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Forces vs Faiblesses -->
+                <div class="card-mono p-5 space-y-3">
+                    <h3 class="font-bold text-xs text-white uppercase tracking-wider flex items-center space-x-2">
+                        <i data-lucide="check-circle-2" class="w-4 h-4 text-white"></i>
+                        <span>Audit Explicatif — Points Forts & Faiblesses</span>
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                        <div class="p-3 rounded bg-white/5 border border-white/10">
+                            <span class="font-bold text-white block mb-2">🟢 Forces Majeures</span>
+                            <ul id="listStrengths" class="list-disc list-inside space-y-1 text-slate-300"></ul>
+                        </div>
+                        <div class="p-3 rounded bg-white/5 border border-white/10">
+                            <span class="font-bold text-white block mb-2">🔴 Points de Vigilance</span>
+                            <ul id="listWeaknesses" class="list-disc list-inside space-y-1 text-slate-300"></ul>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- THESIS & FOLLOW-UP NOTES -->
-            <div class="card-baggr p-5 space-y-4">
-                <h3 class="font-bold text-xs text-slate-300 uppercase tracking-wider flex items-center space-x-2">
-                    <i data-lucide="file-text" class="w-4 h-4 text-emerald-400"></i>
-                    <span>Thèse d'Investissement & Notes de Suivi</span>
-                </h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-                    <div>
-                        <label class="font-semibold text-slate-300 mb-1 block">🟢 Pourquoi acheter ?</label>
-                        <textarea id="thesisBull" class="input-baggr h-20" placeholder="Monétisation Axon AI Engine, ROIC > 25%, rachat net d'actions..."></textarea>
+                <!-- Thèse, Risques & Notes -->
+                <div class="card-mono p-5 space-y-3">
+                    <h3 class="font-bold text-xs text-white uppercase tracking-wider flex items-center space-x-2">
+                        <i data-lucide="file-text" class="w-4 h-4 text-white"></i>
+                        <span>Thèse, Risques & Suivi Q3/Q4</span>
+                    </h3>
+                    <div class="space-y-2 text-xs">
+                        <textarea id="thesisBull" class="input-mono h-16" placeholder="Thèse Bull : Moteur Axon 2.0, expansion e-commerce..."></textarea>
+                        <textarea id="thesisInvalid" class="input-mono h-16" placeholder="Invalidation : Marge FCF < 40%, perte de clients clés..."></textarea>
+                        <textarea id="thesisNotes" class="input-mono h-16" placeholder="Notes de suivi Earnings : Vérifier le contrat Tripledot et FCF Yield..."></textarea>
                     </div>
-                    <div>
-                        <label class="font-semibold text-slate-300 mb-1 block">🔴 Risques & Invalidation</label>
-                        <textarea id="thesisRisks" class="input-baggr h-20" placeholder="Changements de politiques App Store / Google Play, ralentissement ad spend..."></textarea>
-                    </div>
-                    <div>
-                        <label class="font-semibold text-slate-300 mb-1 block">📝 Notes de suivi (Earnings Q3)</label>
-                        <textarea id="thesisNotes" class="input-baggr h-20" placeholder="À surveiller après les résultats du 5 novembre 2026..."></textarea>
-                    </div>
+                    <button onclick="saveSnapshot()" class="w-full py-2 bg-white text-black font-extrabold rounded hover:bg-slate-200 transition text-xs flex items-center justify-center space-x-2">
+                        <i data-lucide="save" class="w-4 h-4"></i>
+                        <span>Sauvegarder Snapshot V5 dans l'Historique</span>
+                    </button>
                 </div>
             </div>
 
         </div>
 
-        <!-- TAB 2: DCF & SENSIBILITE -->
+        <!-- TAB 2: DCF MULTI-SCÉNARIOS (SECTION 4) -->
         <div id="tab-dcf" class="tab-content hidden space-y-6">
-            <div class="card-baggr p-5 space-y-4">
-                <div class="flex justify-between items-center border-b border-baggr-border pb-3">
+            <div class="card-mono p-5 space-y-5">
+                <div class="flex justify-between items-center border-b border-mono-border pb-3">
                     <div>
-                        <h2 class="font-bold text-white text-base">Matrice de Sensibilité DCF (WACC × Croissance FCF)</h2>
-                        <p class="text-xs text-baggr-muted">Valorisation intrinsèque selon les scénarios de marché.</p>
+                        <h2 class="font-bold text-white text-base">DCF Tri-Scénarios (Bear / Base / Bull) & Stress Test</h2>
+                        <p class="text-xs text-mono-muted">Pondération des probabilités et calcul de la valeur intrinsèque globale.</p>
                     </div>
-                    <button onclick="syncDcfToBase()" class="px-3 py-1.5 bg-blue-600/20 text-blue-400 border border-blue-500/30 rounded-lg text-xs font-semibold hover:bg-blue-600/30">
-                        Réinjecter la Marge de Sécurité Base ➔
+                    <button onclick="syncDcfToBase()" class="px-3 py-1.5 bg-white text-black font-bold rounded text-xs hover:bg-slate-200">
+                        Réinjecter la Marge de Sécurité Globale ➔
                     </button>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-                    <div>
-                        <label class="font-semibold text-slate-300">Cours Actuel ($)</label>
-                        <input type="number" id="dcfCurrentPrice" value="510.00" class="input-baggr" oninput="calculateDcfMatrix()">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+                    <!-- SCÉNARIO BEAR -->
+                    <div class="p-4 rounded border border-mono-border bg-mono-bg space-y-3 text-xs">
+                        <div class="flex justify-between items-center border-b border-mono-border pb-2">
+                            <span class="font-bold text-slate-300">🐻 Scénario Bear (Pondération 25%)</span>
+                        </div>
+                        <div>
+                            <label class="text-mono-muted block mb-1">Croissance FCF 5Y (%)</label>
+                            <input type="number" id="dcfBearG" value="12.0" class="input-mono" oninput="calculateDcfScenarios()">
+                        </div>
+                        <div>
+                            <label class="text-mono-muted block mb-1">WACC Bear (%)</label>
+                            <input type="number" id="dcfBearWacc" value="10.5" class="input-mono" oninput="calculateDcfScenarios()">
+                        </div>
+                        <div>
+                            <label class="text-mono-muted block mb-1">Terminal Growth (%)</label>
+                            <input type="number" id="dcfBearTermG" value="2.0" class="input-mono" oninput="calculateDcfScenarios()">
+                        </div>
+                        <div class="p-2.5 rounded bg-mono-card border border-mono-border">
+                            <span class="text-mono-muted block">Valeur Intrinsèque Bear:</span>
+                            <span id="dcfBearValue" class="font-bold text-white text-sm">$ 0.00</span>
+                        </div>
                     </div>
-                    <div>
-                        <label class="font-semibold text-slate-300">FCF par Action ($)</label>
-                        <input type="number" id="dcfFcfPerShare" value="24.50" class="input-baggr" oninput="calculateDcfMatrix()">
+
+                    <!-- SCÉNARIO BASE -->
+                    <div class="p-4 rounded border border-mono-border bg-mono-bg space-y-3 text-xs">
+                        <div class="flex justify-between items-center border-b border-mono-border pb-2">
+                            <span class="font-bold text-white">🎯 Scénario Base (Pondération 50%)</span>
+                        </div>
+                        <div>
+                            <label class="text-mono-muted block mb-1">Croissance FCF 5Y (%)</label>
+                            <input type="number" id="dcfBaseG" value="25.0" class="input-mono" oninput="calculateDcfScenarios()">
+                        </div>
+                        <div>
+                            <label class="text-mono-muted block mb-1">WACC Base (%)</label>
+                            <input type="number" id="dcfBaseWacc" value="9.0" class="input-mono" oninput="calculateDcfScenarios()">
+                        </div>
+                        <div>
+                            <label class="text-mono-muted block mb-1">Terminal Growth (%)</label>
+                            <input type="number" id="dcfBaseTermG" value="2.5" class="input-mono" oninput="calculateDcfScenarios()">
+                        </div>
+                        <div class="p-2.5 rounded bg-mono-card border border-mono-border">
+                            <span class="text-mono-muted block">Valeur Intrinsèque Base:</span>
+                            <span id="dcfBaseValue" class="font-bold text-white text-sm">$ 0.00</span>
+                        </div>
                     </div>
-                    <div>
-                        <label class="font-semibold text-slate-300">Croissance Terminale (%)</label>
-                        <input type="number" id="dcfTerminalG" value="2.5" class="input-baggr" oninput="calculateDcfMatrix()">
+
+                    <!-- SCÉNARIO BULL -->
+                    <div class="p-4 rounded border border-mono-border bg-mono-bg space-y-3 text-xs">
+                        <div class="flex justify-between items-center border-b border-mono-border pb-2">
+                            <span class="font-bold text-slate-300">🚀 Scénario Bull (Pondération 25%)</span>
+                        </div>
+                        <div>
+                            <label class="text-mono-muted block mb-1">Croissance FCF 5Y (%)</label>
+                            <input type="number" id="dcfBullG" value="38.0" class="input-mono" oninput="calculateDcfScenarios()">
+                        </div>
+                        <div>
+                            <label class="text-mono-muted block mb-1">WACC Bull (%)</label>
+                            <input type="number" id="dcfBullWacc" value="8.0" class="input-mono" oninput="calculateDcfScenarios()">
+                        </div>
+                        <div>
+                            <label class="text-mono-muted block mb-1">Terminal Growth (%)</label>
+                            <input type="number" id="dcfBullTermG" value="3.0" class="input-mono" oninput="calculateDcfScenarios()">
+                        </div>
+                        <div class="p-2.5 rounded bg-mono-card border border-mono-border">
+                            <span class="text-mono-muted block">Valeur Intrinsèque Bull:</span>
+                            <span id="dcfBullValue" class="font-bold text-white text-sm">$ 0.00</span>
+                        </div>
                     </div>
+
                 </div>
 
-                <div class="overflow-x-auto pt-2">
-                    <table class="w-full text-xs text-center border-collapse">
-                        <thead>
-                            <tr class="bg-baggr-bg border-b border-baggr-border text-baggr-muted">
-                                <th class="p-3 text-left font-bold">Croissance FCF \ WACC</th>
-                                <th class="p-3 font-bold text-emerald-400">WACC : 8.0 %</th>
-                                <th class="p-3 font-bold text-blue-400">WACC : 9.0 % (Base)</th>
-                                <th class="p-3 font-bold text-rose-400">WACC : 10.0 %</th>
-                            </tr>
-                        </thead>
-                        <tbody id="dcfMatrixBody" class="divide-y divide-baggr-border"></tbody>
-                    </table>
+                <!-- DCF PONDÉRÉ & STRESS TEST SUMMARY -->
+                <div class="p-5 rounded-xl bg-mono-bg border border-mono-border grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                    <div>
+                        <span class="text-mono-muted block">Valeur Intrinsèque Pondérée :</span>
+                        <span id="dcfWeightedValue" class="text-xl font-black text-white">$ 0.00</span>
+                    </div>
+                    <div>
+                        <span class="text-mono-muted block">Marge de Sécurité Globale :</span>
+                        <span id="dcfWeightedMargin" class="text-xl font-black text-white">0.0 %</span>
+                    </div>
+                    <div>
+                        <span class="text-mono-muted block">Stress Test (-2% g / +1.5% WACC) :</span>
+                        <span id="dcfStressTestResult" class="text-xl font-black text-white">$ 0.00</span>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- TAB 3: ALLOCATION PROGRESSIVE -->
+        <!-- TAB 3: POSITION SIZING DYNAMIC (SECTION 10) -->
         <div id="tab-allocation" class="tab-content hidden space-y-6">
-            <div class="card-baggr p-5 space-y-4">
-                <h2 class="font-bold text-white text-base">Calculateur d'Allocation Progressive</h2>
+            <div class="card-mono p-5 space-y-4">
+                <h2 class="font-bold text-white text-base">Calculateur de Position Sizing Dynamique (Multi-Facteurs)</h2>
+                <p class="text-xs text-mono-muted">L'allocation est régie par la formule : Quality Score × Valuation × Marge Sécurité × Max Cap.</p>
+
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs">
                     <div>
-                        <label class="font-semibold text-slate-300">Apport Mensuel ($)</label>
-                        <input type="number" id="allocMonthlyAmount" value="500" class="input-baggr" oninput="calculateAllocation()">
+                        <label class="font-semibold text-slate-300 block mb-1">Apport Mensuel ($)</label>
+                        <input type="number" id="allocMonthlyAmount" value="500" class="input-mono" oninput="calculateDynamicAllocation()">
                     </div>
                     <div>
-                        <label class="font-semibold text-slate-300">Poids Actuel (%)</label>
-                        <input type="number" id="allocCurrentWeight" value="6.5" class="input-baggr" oninput="calculateAllocation()">
+                        <label class="font-semibold text-slate-300 block mb-1">Poids Actuel (%)</label>
+                        <input type="number" id="allocCurrentWeight" value="4.0" class="input-mono" oninput="calculateDynamicAllocation()">
                     </div>
                     <div>
-                        <label class="font-semibold text-slate-300">Plafond Max Toléré (%)</label>
-                        <input type="number" id="allocMaxWeight" value="10.0" class="input-baggr" oninput="calculateAllocation()">
+                        <label class="font-semibold text-slate-300 block mb-1">Plafond Max Toléré (%)</label>
+                        <input type="number" id="allocMaxWeight" value="10.0" class="input-mono" oninput="calculateDynamicAllocation()">
                     </div>
                     <div>
-                        <label class="font-semibold text-slate-300">Marge DCF Actuelle (%)</label>
-                        <input type="number" id="allocDcfMargin" value="22.5" class="input-baggr input-readonly" readonly>
+                        <label class="font-semibold text-slate-300 block mb-1">Score Qualité Business (/80)</label>
+                        <input type="text" id="allocBusinessScoreDisplay" class="input-mono input-readonly" readonly>
                     </div>
                 </div>
 
-                <div class="p-5 rounded-xl bg-baggr-bg border border-baggr-border mt-4 space-y-3">
+                <div class="p-5 rounded-xl bg-mono-bg border border-mono-border space-y-3 mt-4">
                     <div class="flex justify-between items-center text-xs">
-                        <span class="text-baggr-muted">Taux d'Engagement Recommandé :</span>
-                        <span id="allocPercentText" class="font-black text-emerald-400 text-sm">75 % DE L'APPORT</span>
+                        <span class="text-mono-muted">Taux d'Engagement Dynamique Calculé :</span>
+                        <span id="allocDynamicRate" class="font-black text-white text-sm">0 %</span>
                     </div>
-                    <div class="w-full bg-slate-800 h-3 rounded-full overflow-hidden">
-                        <div id="allocProgressBar" class="bg-emerald-500 h-full w-3/4 transition-all duration-500"></div>
+                    <div class="w-full bg-mono-card h-3 rounded-full overflow-hidden border border-mono-border">
+                        <div id="allocDynamicBar" class="bg-white h-full w-0 transition-all duration-500"></div>
                     </div>
                     <div class="flex justify-between items-center text-xs pt-1">
-                        <span id="allocResultText" class="text-slate-200 font-semibold">Montant suggéré sur le titre : $ 375.00</span>
-                        <span id="allocEtfText" class="text-baggr-muted">Reste vers ETF Socle : $ 125.00</span>
+                        <span id="allocDynamicAmountText" class="text-white font-bold">Montant Suggéré : $ 0.00</span>
+                        <span id="allocEtfAmountText" class="text-mono-muted">Reste vers ETF Socle : $ 0.00</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- TAB 4: COMPARATEUR -->
+        <!-- TAB 4: PORTFOLIO FIT & CONCENTRATION (SECTION 11) -->
+        <div id="tab-portfolio" class="tab-content hidden space-y-6">
+            <div class="card-mono p-5 space-y-4">
+                <h2 class="font-bold text-white text-base">Portefeuille Fit & Analyse des Risques de Concentration</h2>
+                <p class="text-xs text-mono-muted">Vérifie si l'intégration du titre respecte la diversification factorielle et sectorielle.</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                    <div class="p-4 rounded border border-mono-border bg-mono-bg space-y-2">
+                        <span class="font-bold text-white block border-b border-mono-border pb-1">Exposition Sectorielle Tech/SaaS</span>
+                        <div class="flex justify-between pt-1"><span>Part Actuelle Tech:</span><span class="font-bold text-white">43 %</span></div>
+                        <div class="flex justify-between"><span>Alerte Seuil (40%):</span><span class="font-bold text-white">⚠️ DÉPASSÉ</span></div>
+                    </div>
+                    <div class="p-4 rounded border border-mono-border bg-mono-bg space-y-2">
+                        <span class="font-bold text-white block border-b border-mono-border pb-1">Concentration Top 5 Positions</span>
+                        <div class="flex justify-between pt-1"><span>Part Top 5:</span><span class="font-bold text-white">52 %</span></div>
+                        <div class="flex justify-between"><span>Alerte Seuil (50%):</span><span class="font-bold text-white">⚠️ ÉLEVÉE</span></div>
+                    </div>
+                    <div class="p-4 rounded border border-mono-border bg-mono-bg space-y-2">
+                        <span class="font-bold text-white block border-b border-mono-border pb-1">Exposition Factorielle</span>
+                        <div class="flex justify-between pt-1"><span>Facteur Principal:</span><span class="font-bold text-white">High Quality / Growth</span></div>
+                        <div class="flex justify-between"><span>Corrélation Portefeuille:</span><span class="font-bold text-white">0.78 (Élevée)</span></div>
+                    </div>
+                </div>
+
+                <div class="p-4 rounded-lg bg-white/5 border border-white/10 text-xs text-slate-300 space-y-1">
+                    <span class="font-bold text-white uppercase block">Avis d'Intégration Portfolio Fit :</span>
+                    <p>Le titre présente d'excellentes métriques individuelles, mais accentue la sur-exposition au secteur Tech/Software (43% vs 40% max). Il est recommandé d'utiliser une allocation progressive limitée à 50% de la taille de position théorique.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 5: COMPARATEUR MULTI-TITRES -->
         <div id="tab-compare" class="tab-content hidden space-y-6">
-            <div class="card-baggr p-5 space-y-4">
-                <h2 class="font-bold text-white text-base">Comparateur Multi-Titres</h2>
+            <div class="card-mono p-5 space-y-4">
+                <h2 class="font-bold text-white text-base">Comparateur Multi-Titres Côte à Côte</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
                     <div>
-                        <label class="font-semibold text-slate-300 mb-1 block">Titre A</label>
-                        <select id="compareSelectA" class="input-baggr" onchange="renderComparison()"></select>
+                        <label class="font-semibold text-slate-300 block mb-1">Titre A</label>
+                        <select id="compareSelectA" class="input-mono" onchange="renderComparison()"></select>
                     </div>
                     <div>
-                        <label class="font-semibold text-slate-300 mb-1 block">Titre B</label>
-                        <select id="compareSelectB" class="input-baggr" onchange="renderComparison()"></select>
+                        <label class="font-semibold text-slate-300 block mb-1">Titre B</label>
+                        <select id="compareSelectB" class="input-mono" onchange="renderComparison()"></select>
                     </div>
                     <div>
-                        <label class="font-semibold text-slate-300 mb-1 block">Titre C</label>
-                        <select id="compareSelectC" class="input-baggr" onchange="renderComparison()"></select>
+                        <label class="font-semibold text-slate-300 block mb-1">Titre C</label>
+                        <select id="compareSelectC" class="input-mono" onchange="renderComparison()"></select>
                     </div>
                 </div>
 
                 <div class="overflow-x-auto pt-2">
                     <table class="w-full text-xs text-left border-collapse">
                         <thead>
-                            <tr class="border-b border-baggr-border text-baggr-muted bg-baggr-bg">
-                                <th class="p-2.5">Métrique / Titre</th>
-                                <th id="compHeadA" class="p-2.5 font-bold text-emerald-400">--</th>
-                                <th id="compHeadB" class="p-2.5 font-bold text-blue-400">--</th>
-                                <th id="compHeadC" class="p-2.5 font-bold text-purple-400">--</th>
+                            <tr class="border-b border-mono-border text-mono-muted bg-mono-bg">
+                                <th class="p-2.5">Bloc / Métrique</th>
+                                <th id="compHeadA" class="p-2.5 font-bold text-white">--</th>
+                                <th id="compHeadB" class="p-2.5 font-bold text-white">--</th>
+                                <th id="compHeadC" class="p-2.5 font-bold text-white">--</th>
                             </tr>
                         </thead>
-                        <tbody id="compareTableBody" class="divide-y divide-baggr-border"></tbody>
+                        <tbody id="compareTableBody" class="divide-y divide-mono-border"></tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-        <!-- TAB 5: HISTORIQUE & NOTES -->
+        <!-- TAB 6: HISTORIQUE ET ÉVOLUTION DU SCORE (SECTION 12) -->
         <div id="tab-history" class="tab-content hidden space-y-6">
-            <div class="card-baggr p-5 space-y-4">
+            <div class="card-mono p-5 space-y-4">
                 <div class="flex justify-between items-center">
-                    <h2 class="font-bold text-white text-base">Historique des Snapshots</h2>
-                    <div class="flex space-x-2">
-                        <button onclick="exportJsonData()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded text-xs flex items-center space-x-1">
-                            <i data-lucide="download" class="w-3.5 h-3.5"></i><span>Exporter JSON</span>
-                        </button>
+                    <div>
+                        <h2 class="font-bold text-white text-base">Évolution Temporelle des Scores & Notes Q3/Q4</h2>
+                        <p class="text-xs text-mono-muted">Suivi de la trajectoire : Qualité vs Valorisation au fil des trimestres.</p>
                     </div>
+                    <button onclick="exportJsonData()" class="px-3 py-1.5 bg-white text-black font-bold rounded text-xs hover:bg-slate-200 flex items-center space-x-1">
+                        <i data-lucide="download" class="w-3.5 h-3.5"></i><span>Exporter JSON</span>
+                    </button>
                 </div>
 
                 <div class="overflow-x-auto">
                     <table class="w-full text-xs text-left border-collapse">
                         <thead>
-                            <tr class="border-b border-baggr-border text-baggr-muted bg-baggr-bg">
-                                <th class="p-2">Horodatage</th>
+                            <tr class="border-b border-mono-border text-mono-muted bg-mono-bg">
+                                <th class="p-2">Date</th>
                                 <th class="p-2">Ticker</th>
-                                <th class="p-2">Nom</th>
-                                <th class="p-2">Score GARP</th>
-                                <th class="p-2">Piliers (P1/P2/P3)</th>
-                                <th class="p-2">Notes</th>
-                                <th class="p-2 text-right">Actions</th>
+                                <th class="p-2">GARP V5</th>
+                                <th class="p-2">Business Score (/80)</th>
+                                <th class="p-2">Valuation (/20)</th>
+                                <th class="p-2">Notes & Suivi Q3</th>
+                                <th class="p-2 text-right">Action</th>
                             </tr>
                         </thead>
-                        <tbody id="historyTableBody" class="divide-y divide-baggr-border"></tbody>
+                        <tbody id="historyTableBody" class="divide-y divide-mono-border"></tbody>
                     </table>
                 </div>
             </div>
@@ -592,22 +732,22 @@
 
     </main>
 
-    <!-- Disclaimer & Legal Footer -->
-    <footer class="border-t border-baggr-border py-4 text-center text-[11px] text-baggr-muted max-w-7xl mx-auto w-full px-4 space-y-1">
-        <p>BAGGR TERMINAL V4.1 PRO — Cet outil d'analyse est à caractère exclusivement éducatif et ne constitue pas un conseil en investissement.</p>
-        <p>© 2026 Baggr Terminal Engine. Tous droits réservés.</p>
+    <!-- Footer -->
+    <footer class="border-t border-mono-border py-4 text-center text-[11px] text-mono-muted max-w-7xl mx-auto w-full px-4 space-y-1">
+        <p>GARP TERMINAL V5.0 PRO — Cet outil est à caractère éducatif et ne constitue pas un conseil en investissement.</p>
+        <p>© 2026 Framework GARP V5. Tous droits réservés.</p>
     </footer>
 
     <!-- JAVASCRIPT ENGINE -->
     <script>
         lucide.createIcons();
-        const STORAGE_KEY = 'garp_v4_1_snapshots';
-        const WATCHLIST_KEY = 'garp_v4_1_watchlist';
+        const STORAGE_KEY = 'garp_v5_0_snapshots';
+        const WATCHLIST_KEY = 'garp_v5_0_watchlist';
 
         function showToast(message, type = 'success') {
             const container = document.getElementById('toastContainer');
             const toast = document.createElement('div');
-            toast.className = `p-3 rounded-lg text-xs font-bold text-white shadow-xl transition-all duration-300 flex items-center space-x-2 ${type === 'success' ? 'bg-emerald-600' : 'bg-rose-600'}`;
+            toast.className = `p-3 rounded-lg text-xs font-bold text-black shadow-2xl transition-all duration-300 flex items-center space-x-2 ${type === 'success' ? 'bg-white' : 'bg-slate-300'}`;
             toast.innerHTML = `<i data-lucide="${type === 'success' ? 'check-circle' : 'alert-circle'}" class="w-4 h-4"></i><span>${message}</span>`;
             container.appendChild(toast);
             lucide.createIcons();
@@ -623,259 +763,310 @@
 
             document.querySelectorAll('header button').forEach(el => {
                 if(el.id && el.id.startsWith('btn-tab-')) {
-                    el.classList.remove('tab-baggr-active');
-                    el.classList.add('text-baggr-muted');
+                    el.classList.remove('tab-mono-active');
+                    el.classList.add('text-mono-muted');
                 }
             });
 
             const activeBtn = document.getElementById('btn-' + tabId);
             if(activeBtn) {
-                activeBtn.classList.add('tab-baggr-active');
-                activeBtn.classList.remove('text-baggr-muted');
+                activeBtn.classList.add('tab-mono-active');
+                activeBtn.classList.remove('text-mono-muted');
             }
 
             if(tabId === 'tab-compare') populateCompareSelects();
             if(tabId === 'tab-history') renderHistoryTable();
-            if(tabId === 'tab-dcf') calculateDcfMatrix();
+            if(tabId === 'tab-dcf') calculateDcfScenarios();
+            if(tabId === 'tab-allocation') calculateDynamicAllocation();
         }
 
         function calculateAll() {
+            // Inputs Saisie
             const roic = parseFloat(document.getElementById('inputRoic').value) || 0;
-            const orgGrowth = parseFloat(document.getElementById('inputOrgGrowth').value) || 0;
             const grossMargin = parseFloat(document.getElementById('inputGrossMargin').value) || 0;
             const grossMarginTrend = document.getElementById('inputGrossMarginTrend').value;
             const fcfMargin = parseFloat(document.getElementById('inputFcfMargin').value) || 0;
             const roe = parseFloat(document.getElementById('inputRoe').value) || 0;
-            const moat = document.getElementById('inputMoat').value;
 
-            const peg = parseFloat(document.getElementById('inputPeg').value) || 0;
-            const fcfYield = parseFloat(document.getElementById('inputFcfYield').value) || 0;
-            const dcfMargin = parseFloat(document.getElementById('inputDcfMargin').value) || 0;
-            const peVsHist = document.getElementById('inputPeVsHist').value;
-            const capexOcf = parseFloat(document.getElementById('inputCapexOcf').value) || 0;
-            const growthQual = document.getElementById('inputGrowthQual').value;
+            const orgGrowth = parseFloat(document.getElementById('inputOrgGrowth').value) || 0;
+            const epsGrowth = parseFloat(document.getElementById('inputEpsGrowth').value) || 0;
+            const fcfShareGrowth = parseFloat(document.getElementById('inputFcfShareGrowth').value) || 0;
 
             const netDebtEbitda = parseFloat(document.getElementById('inputNetDebtEbitda').value) || 0;
-            const shareChange = parseFloat(document.getElementById('inputShareChange').value) || 0;
+            const sbcRev = parseFloat(document.getElementById('inputSbcRevenue').value) || 0;
+            const netShareChange = parseFloat(document.getElementById('inputNetShareChange').value) || 0;
             const ocfVsEps = document.getElementById('inputOcfVsEps').value;
 
-            // Adjusted PEG Calculation
-            const adjustedPeg = roic > 0 ? (peg / (roic / 15)).toFixed(2) : peg.toFixed(2);
-            document.getElementById('inputAdjustedPeg').value = adjustedPeg;
+            const dcfMargin = parseFloat(document.getElementById('inputDcfMargin').value) || 0;
+            const peg = parseFloat(document.getElementById('inputPeg').value) || 0;
+            const fcfYield = parseFloat(document.getElementById('inputFcfYield').value) || 0;
+            const peVsHist = document.getElementById('inputPeVsHist').value;
+            const capexOcf = parseFloat(document.getElementById('inputCapexOcf').value) || 0;
 
-            // Piotroski F-Score Calculation (Simplified 9-point criteria)
-            let piotroski = 0;
-            if(roic > 0) piotroski++;
-            if(fcfMargin > 0) piotroski++;
-            if(ocfVsEps === 'pass') piotroski++;
-            if(netDebtEbitda < 1.0) piotroski++;
-            if(shareChange <= 0) piotroski++;
-            if(grossMarginTrend === 'expanding') piotroski++;
-            if(grossMargin > 50) piotroski++;
-            if(orgGrowth > 10) piotroski++;
-            if(capexOcf < 20) piotroski++;
+            // 1. BLOC QUALITÉ (/40)
+            let qScore = 0;
+            if(roic >= 25) qScore += 12;
+            else if(roic >= 15) qScore += 8;
+            else if(roic >= 10) qScore += 4;
 
-            document.getElementById('headerPiotroski').innerText = `${piotroski} / 9`;
-            document.getElementById('piotroskiScoreBadge').innerText = `${piotroski} / 9 (${piotroski >= 7 ? 'Fort' : 'Modéré'})`;
+            if(grossMargin >= 60) qScore += 5;
+            else if(grossMargin >= 40) qScore += 3;
+            if(grossMarginTrend === 'expanding') qScore += 3;
+            else if(grossMarginTrend === 'stable') qScore += 1;
 
-            // Red Flags Check
+            if(fcfMargin >= 25) qScore += 5;
+            else if(fcfMargin >= 15) qScore += 3;
+
+            // Moat Quantifié (/5 pts)
+            let moatPoints = 0;
+            if(document.getElementById('moatPricing').checked) moatPoints++;
+            if(document.getElementById('moatSwitching').checked) moatPoints++;
+            if(document.getElementById('moatNetwork').checked) moatPoints++;
+            if(document.getElementById('moatCost').checked) moatPoints++;
+            if(document.getElementById('moatBrand').checked) moatPoints++;
+            qScore += moatPoints;
+
+            if(roe >= 20) qScore += 2;
+
+            const scoreQuality = Math.min(40, qScore);
+
+            // 2. BLOC CROISSANCE (/20)
+            let gScore = 0;
+            if(orgGrowth >= 20) gScore += 8;
+            else if(orgGrowth >= 10) gScore += 5;
+
+            if(epsGrowth >= 20) gScore += 6;
+            else if(epsGrowth >= 10) gScore += 4;
+
+            if(fcfShareGrowth >= 20) gScore += 6;
+            else if(fcfShareGrowth >= 10) gScore += 4;
+
+            const scoreGrowth = Math.min(20, gScore);
+
+            // 3. BLOC SANTÉ FINANCIÈRE (/20)
+            let fScore = 0;
+            if(netDebtEbitda <= 0.5) fScore += 8;
+            else if(netDebtEbitda <= 1.5) fScore += 5;
+
+            if(netShareChange <= -1.0) fScore += 7;
+            else if(netShareChange <= 0.5) fScore += 4;
+
+            if(sbcRev > 12.0) fScore -= 2; // Pénalité SBC excessive
+
+            if(ocfVsEps === 'pass') fScore += 5;
+
+            const scoreFinancial = Math.min(20, Math.max(0, fScore));
+
+            // BUSINESS SCORE TOTAL (/80)
+            const businessScore = scoreQuality + scoreGrowth + scoreFinancial;
+
+            // 4. BLOC VALORISATION (/20)
+            let vScore = 0;
+            if(dcfMargin >= 20) vScore += 7;
+            else if(dcfMargin >= 10) vScore += 4;
+
+            if(peg > 0 && peg <= 1.0) vScore += 4;
+            else if(peg <= 1.5) vScore += 2;
+
+            if(fcfYield >= 5.0) vScore += 3;
+            else if(fcfYield >= 3.0) vScore += 1;
+
+            if(peVsHist === 'discount') vScore += 2;
+            else if(peVsHist === 'fair') vScore += 1;
+
+            if(capexOcf <= 15) vScore += 2;
+
+            const scoreValuation = Math.min(20, vScore);
+
+            // GARP SCORE TOTAL (/100)
+            const garpScore = businessScore + scoreValuation;
+
+            // Mise à jour de l'affichage
+            document.getElementById('scoreQuality').innerText = `${scoreQuality} / 40`;
+            document.getElementById('scoreGrowth').innerText = `${scoreGrowth} / 20`;
+            document.getElementById('scoreFinancial').innerText = `${scoreFinancial} / 20`;
+            document.getElementById('scoreValuation').innerText = `${scoreValuation} / 20`;
+
+            document.getElementById('scoreBusinessSummary').innerText = `${businessScore} / 80`;
+            document.getElementById('scoreValuationSummary').innerText = `${scoreValuation} / 20`;
+            document.getElementById('headerBusinessScore').innerText = `${businessScore} / 80`;
+
+            document.getElementById('scoreDisplay').innerText = garpScore;
+            document.getElementById('headerGarpScore').innerText = `${garpScore} / 100`;
+
+            const offset = 213.62 - (213.62 * garpScore / 100);
+            document.getElementById('scoreCircle').style.strokeDashoffset = offset;
+
+            // Advanced Metrics (Section 5)
+            const adjPeg = roic > 0 ? (peg / (roic / 15)).toFixed(2) : peg.toFixed(2);
+            document.getElementById('advancedAdjustedPeg').innerText = adjPeg;
+            document.getElementById('advancedEvFcf').innerText = fcfYield > 0 ? `${(100 / fcfYield).toFixed(1)}x` : '--';
+
+            // Red Flags Veto Check
             const redFlags = [];
             if(netDebtEbitda > 2.5) redFlags.push(`Dette Nette / EBITDA critique (${netDebtEbitda}x).`);
-            if(roic < 10) redFlags.push(`ROIC moyen sous le seuil acceptable (${roic}%).`);
-            if(shareChange > 3.0) redFlags.push(`Dilution d'actions élevée (+${shareChange}%/an).`);
-            if(ocfVsEps === 'fail') redFlags.push(`Bénéfices comptables non traduits en cash.`);
+            if(roic < 10) redFlags.push(`ROIC moyen sous le seuil requis (${roic}%).`);
+            if(sbcRev > 15) redFlags.push(`SBC / Revenue trop élevé (${sbcRev}%).`);
+            if(ocfVsEps === 'fail') redFlags.push(`Bénéfices comptables non traduits en cash flow.`);
 
             const banner = document.getElementById('redFlagsBanner');
             const flagsList = document.getElementById('redFlagsList');
             if(redFlags.length > 0) {
                 banner.classList.remove('hidden');
                 flagsList.innerHTML = redFlags.map(f => `<li>${f}</li>`).join('');
+                document.getElementById('riskLevelSummary').innerText = 'HIGH (VETO)';
             } else {
                 banner.classList.add('hidden');
+                document.getElementById('riskLevelSummary').innerText = 'LOW';
             }
 
+            // Statut Décisionnel Indépendant (Section 15)
+            const badge = document.getElementById('statusBadge');
+            if(redFlags.length > 0) {
+                badge.innerText = "🚨 REJET / RISK VETO";
+                badge.className = "inline-block px-3 py-1 rounded text-xs font-black bg-slate-800 text-slate-300 border border-slate-700";
+            } else if(garpScore >= 80 && dcfMargin >= 15) {
+                badge.innerText = "🟢 BUY ZONE (QUALITÉ + VALO)";
+                badge.className = "inline-block px-3 py-1 rounded text-xs font-black bg-white text-black";
+            } else if(businessScore >= 65 && dcfMargin < 15) {
+                badge.innerText = "🟡 OVERVALUED QUALITY (WATCHLIST)";
+                badge.className = "inline-block px-3 py-1 rounded text-xs font-black bg-slate-200 text-black";
+            } else {
+                badge.innerText = "⚪ ÉTUDIER / WATCHLIST";
+                badge.className = "inline-block px-3 py-1 rounded text-xs font-black bg-slate-800 text-slate-300";
+            }
+
+            // Audit Forces vs Faiblesses
             const strengths = [];
             const weaknesses = [];
+            if(roic >= 20) strengths.push(`ROIC très élevé (${roic}%)`);
+            if(fcfMargin >= 25) strengths.push(`Marge FCF supérieure (${fcfMargin}%)`);
+            if(netShareChange <= -1.0) strengths.push(`Rachats nets d'actions (${netShareChange}%/an)`);
+            if(dcfMargin >= 15) strengths.push(`Marge de sécurité DCF confortable (${dcfMargin}%)`);
 
-            // PILLAR 1 SCORING (MAX 40 STRICT CLAMP)
-            let rawP1 = 0;
-            if(roic >= 25) { rawP1 += 12; strengths.push(`ROIC exceptionnel (${roic}%)`); }
-            else if(roic >= 15) rawP1 += 8;
-            else { rawP1 += 3; weaknesses.push(`ROIC modeste (${roic}%)`); }
+            if(sbcRev > 10) weaknesses.push(`Stock-Based Comp élevé (${sbcRev}% CA)`);
+            if(dcfMargin < 0) weaknesses.push(`Valorisation tendue (Marge DCF négative)`);
+            if(netDebtEbitda > 1.5) weaknesses.push(`Levier d'endettement significatif`);
 
-            if(orgGrowth >= 15) { rawP1 += 8; strengths.push(`Croissance organique forte (${orgGrowth}%)`); }
-            else if(orgGrowth >= 8) rawP1 += 5;
+            document.getElementById('listStrengths').innerHTML = strengths.map(s => `<li>${s}</li>`).join('') || '<li>Métriques alignées.</li>';
+            document.getElementById('listWeaknesses').innerHTML = weaknesses.map(w => `<li>${w}</li>`).join('') || '<li>Aucun point faible majeur.</li>';
 
-            if(grossMargin >= 60) rawP1 += 4;
-            if(grossMarginTrend === 'expanding') { rawP1 += 2; strengths.push(`Marge Brute en expansion`); }
-
-            if(fcfMargin >= 25) { rawP1 += 5; strengths.push(`Marge FCF très solide (${fcfMargin}%)`); }
-            if(moat === 'wide') { rawP1 += 5; strengths.push(`Avantage concurrentiel (Wide Moat)`); }
-            if(roe >= 20) rawP1 += 4;
-
-            const p1 = Math.min(40, rawP1); // Strict Clamp
-
-            // PILLAR 2 SCORING (MAX 40 STRICT CLAMP)
-            let rawP2 = 0;
-            if(dcfMargin >= 15) { rawP2 += 15; strengths.push(`Marge DCF confortable (${dcfMargin}%)`); }
-            else if(dcfMargin >= 5) rawP2 += 9;
-            else { rawP2 += 2; weaknesses.push(`Marge DCF faible (${dcfMargin}%)`); }
-
-            if(peg > 0 && peg <= 1.0) { rawP2 += 8; strengths.push(`PEG très attractif (${peg})`); }
-            if(fcfYield >= 5.0) { rawP2 += 7; strengths.push(`FCF Yield attrayant (${fcfYield}%)`); }
-            if(capexOcf <= 15) { rawP2 += 4; strengths.push(`Capital Light (%CAPEX/OCF: ${capexOcf}%)`); }
-            if(growthQual === 'high') rawP2 += 3;
-
-            const p2 = Math.min(40, rawP2); // Strict Clamp
-
-            // PILLAR 3 SCORING (MAX 20 STRICT CLAMP)
-            let rawP3 = 0;
-            if(netDebtEbitda <= 0.5) { rawP3 += 10; strengths.push(`Bilan forteresse (Faible dette)`); }
-            else if(netDebtEbitda <= 1.5) rawP3 += 6;
-
-            if(shareChange <= -1.0) { rawP3 += 10; strengths.push(`Rachats nets d'actions (${shareChange}%/an)`); }
-            else if(shareChange <= 0.5) rawP3 += 6;
-
-            const p3 = Math.min(20, rawP3); // Strict Clamp
-
-            const totalScore = Math.min(100, p1 + p2 + p3);
-
-            document.getElementById('listStrengths').innerHTML = strengths.slice(0, 5).map(s => `<li>${s}</li>`).join('');
-            document.getElementById('listWeaknesses').innerHTML = weaknesses.slice(0, 5).map(w => `<li>${w}</li>`).join('') || '<li>Aucun point faible majeur.</li>';
-
-            document.getElementById('scorePillar1').innerText = `${p1} / 40`;
-            document.getElementById('scorePillar2').innerText = `${p2} / 40`;
-            document.getElementById('scorePillar3').innerText = `${p3} / 20`;
-
-            document.getElementById('scoreDisplay').innerText = totalScore;
-            document.getElementById('headerScore').innerText = `${totalScore} / 100`;
-
-            const offset = 301.59 - (301.59 * totalScore / 100);
-            document.getElementById('scoreCircle').style.strokeDashoffset = offset;
-
-            const verdict = document.getElementById('verdictBadge');
-            if(redFlags.length > 0) {
-                verdict.innerText = "🚨 REJET / RED FLAGS";
-                verdict.className = "mt-1 px-3 py-0.5 rounded-full text-xs font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30";
-            } else if(totalScore >= 75) {
-                verdict.innerText = "🟢 ACHAT VALIDE";
-                verdict.className = "mt-1 px-3 py-0.5 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
-            } else {
-                verdict.innerText = "🟡 WATCHLIST / SÉLECTIF";
-                verdict.className = "mt-1 px-3 py-0.5 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30";
-            }
-
-            document.getElementById('allocDcfMargin').value = dcfMargin;
-            calculateAllocation();
+            // Data Confidence (Section 14)
+            const confidence = 100 - (redFlags.length * 10);
+            document.getElementById('dataConfidenceSummary').innerText = `${confidence} %`;
+            document.getElementById('headerDataConfidence').innerText = `${confidence} %`;
         }
 
-        // DCF MATRIX WITH ZERO-DIVISION GUARD
-        function calculateDcfMatrix() {
+        // DCF MULTI-SCÉNARIOS (BEAR / BASE / BULL)
+        function calculateDcfScenarios() {
             const price = parseFloat(document.getElementById('dcfCurrentPrice').value) || 1;
-            const fcfPS = parseFloat(document.getElementById('dcfFcfPerShare').value) || 0;
-            const termG = parseFloat(document.getElementById('dcfTerminalG').value) || 2.5;
+            const fcfPS = parseFloat(document.getElementById('inputFcfMargin').value) > 0 ? 15.0 : 5.0; // FCF proxy
 
-            // Link Org Growth to DCF Base
-            const baseGrowth = parseFloat(document.getElementById('inputOrgGrowth').value) || 10.0;
-            const growthList = [baseGrowth * 0.75, baseGrowth, baseGrowth * 1.25, baseGrowth * 1.5];
-            const waccList = [8.0, 9.0, 10.0];
+            function calcSingleDcf(g, wacc, termG) {
+                if(wacc <= termG) return 0;
+                let pvSum = 0;
+                let currentFcf = fcfPS;
+                for(let t=1; t<=5; t++) {
+                    currentFcf *= (1 + g/100);
+                    pvSum += currentFcf / Math.pow(1 + wacc/100, t);
+                }
+                const terminalVal = (currentFcf * (1 + termG/100)) / ((wacc/100) - (termG/100));
+                return pvSum + (terminalVal / Math.pow(1 + wacc/100, 5));
+            }
 
-            const tbody = document.getElementById('dcfMatrixBody');
-            tbody.innerHTML = growthList.map(g => {
-                const cells = waccList.map(wacc => {
-                    // GUARD: WACC <= g terminal
-                    if(wacc <= termG) {
-                        return `<td class="p-3 bg-baggr-bg/50 text-rose-400 font-bold">N/A (WACC ≤ g)</td>`;
-                    }
+            const valBear = calcSingleDcf(
+                parseFloat(document.getElementById('dcfBearG').value) || 10,
+                parseFloat(document.getElementById('dcfBearWacc').value) || 10.5,
+                parseFloat(document.getElementById('dcfBearTermG').value) || 2.0
+            );
 
-                    let pvSum = 0;
-                    let currentFcf = fcfPS;
-                    for(let t=1; t<=5; t++) {
-                        currentFcf *= (1 + g/100);
-                        pvSum += currentFcf / Math.pow(1 + wacc/100, t);
-                    }
-                    const terminalVal = (currentFcf * (1 + termG/100)) / ((wacc/100) - (termG/100));
-                    const intrinsic = pvSum + (terminalVal / Math.pow(1 + wacc/100, 5));
-                    const margin = ((intrinsic - price) / intrinsic) * 100;
+            const valBase = calcSingleDcf(
+                parseFloat(document.getElementById('dcfBaseG').value) || 20,
+                parseFloat(document.getElementById('dcfBaseWacc').value) || 9.0,
+                parseFloat(document.getElementById('dcfBaseTermG').value) || 2.5
+            );
 
-                    const colorClass = margin >= 15 ? 'text-emerald-400 font-bold' : (margin >= 0 ? 'text-amber-300' : 'text-rose-400');
-                    return `<td class="p-3 bg-baggr-bg/50">
-                        <div class="text-sm ${colorClass}">$ ${intrinsic.toFixed(2)}</div>
-                        <div class="text-[10px] text-baggr-muted">${margin.toFixed(1)}% MOS</div>
-                    </td>`;
-                }).join('');
+            const valBull = calcSingleDcf(
+                parseFloat(document.getElementById('dcfBullG').value) || 30,
+                parseFloat(document.getElementById('dcfBullWacc').value) || 8.0,
+                parseFloat(document.getElementById('dcfBullTermG').value) || 3.0
+            );
 
-                return `<tr>
-                    <td class="p-3 text-left font-bold text-slate-300 bg-baggr-bg">Croissance : ${g.toFixed(1)} %</td>
-                    ${cells}
-                </tr>`;
-            }).join('');
+            document.getElementById('dcfBearValue').innerText = `$ ${valBear.toFixed(2)}`;
+            document.getElementById('dcfBaseValue').innerText = `$ ${valBase.toFixed(2)}`;
+            document.getElementById('dcfBullValue').innerText = `$ ${valBull.toFixed(2)}`;
+
+            // Pondération (25% Bear / 50% Base / 25% Bull)
+            const weightedValue = (valBear * 0.25) + (valBase * 0.50) + (valBull * 0.25);
+            const weightedMargin = ((weightedValue - price) / weightedValue) * 100;
+
+            document.getElementById('dcfWeightedValue').innerText = `$ ${weightedValue.toFixed(2)}`;
+            document.getElementById('dcfWeightedMargin').innerText = `${weightedMargin.toFixed(1)} %`;
+
+            // Stress Test (-2% g / +1.5% WACC)
+            const valStress = calcSingleDcf(
+                (parseFloat(document.getElementById('dcfBaseG').value) || 20) - 2.0,
+                (parseFloat(document.getElementById('dcfBaseWacc').value) || 9.0) + 1.5,
+                2.0
+            );
+            document.getElementById('dcfStressTestResult').innerText = `$ ${valStress.toFixed(2)}`;
         }
 
         function syncDcfToBase() {
-            const price = parseFloat(document.getElementById('dcfCurrentPrice').value) || 1;
-            const fcfPS = parseFloat(document.getElementById('dcfFcfPerShare').value) || 0;
-            const g = parseFloat(document.getElementById('inputOrgGrowth').value) || 10.0;
-            const wacc = 9.0;
-            const termG = parseFloat(document.getElementById('dcfTerminalG').value) || 2.5;
-
-            if(wacc <= termG) return showToast("WACC invalide pour le DCF", "error");
-
-            let pvSum = 0;
-            let currentFcf = fcfPS;
-            for(let t=1; t<=5; t++) {
-                currentFcf *= (1 + g/100);
-                pvSum += currentFcf / Math.pow(1 + wacc/100, t);
-            }
-            const terminalVal = (currentFcf * (1 + termG/100)) / ((wacc/100) - (termG/100));
-            const intrinsic = pvSum + (terminalVal / Math.pow(1 + wacc/100, 5));
-            const margin = ((intrinsic - price) / intrinsic) * 100;
-
-            document.getElementById('inputDcfMargin').value = margin.toFixed(1);
+            const marginText = document.getElementById('dcfWeightedMargin').innerText.replace(' %', '');
+            document.getElementById('inputDcfMargin').value = parseFloat(marginText) || 15.0;
             calculateAll();
             switchTab('tab-analyse');
-            showToast("DCF synchronisé avec la fiche principale !");
+            showToast("Marge DCF globale synchronisée avec le Framework !");
         }
 
-        function calculateAllocation() {
+        // POSITION SIZING DYNAMIQUE (SECTION 10)
+        function calculateDynamicAllocation() {
             const amount = parseFloat(document.getElementById('allocMonthlyAmount').value) || 0;
             const currWeight = parseFloat(document.getElementById('allocCurrentWeight').value) || 0;
             const maxWeight = parseFloat(document.getElementById('allocMaxWeight').value) || 10;
-            const score = parseInt(document.getElementById('scoreDisplay').innerText) || 0;
+
+            const bScoreText = document.getElementById('scoreBusinessSummary').innerText;
+            const bScore = parseInt(bScoreText) || 0;
+            const dcfMargin = parseFloat(document.getElementById('inputDcfMargin').value) || 0;
+
+            document.getElementById('allocBusinessScoreDisplay').value = `${bScore} / 80`;
 
             let allocRatio = 0;
-            if(currWeight >= maxWeight) allocRatio = 0;
-            else if(score >= 80) allocRatio = 1.0;
-            else if(score >= 70) allocRatio = 0.75;
-            else if(score >= 60) allocRatio = 0.50;
-            else allocRatio = 0.25;
+            if(currWeight >= maxWeight) {
+                allocRatio = 0;
+            } else {
+                // Sizing = Quality Ratio * Valuation Factor
+                const qualityFactor = bScore / 80;
+                const valoFactor = dcfMargin >= 15 ? 1.0 : (dcfMargin >= 0 ? 0.6 : 0.25);
+                allocRatio = qualityFactor * valoFactor;
+            }
 
             const stockAmount = amount * allocRatio;
             const etfAmount = amount - stockAmount;
 
-            document.getElementById('allocPercentText').innerText = `${(allocRatio * 100).toFixed(0)} % DE L'APPORT`;
-            document.getElementById('allocProgressBar').style.width = `${(allocRatio * 100).toFixed(0)}%`;
-            document.getElementById('allocResultText').innerText = `Montant suggéré sur le titre : $ ${stockAmount.toFixed(2)}`;
-            document.getElementById('allocEtfText').innerText = `Reste vers ETF Socle : $ ${etfAmount.toFixed(2)}`;
+            document.getElementById('allocDynamicRate').innerText = `${(allocRatio * 100).toFixed(0)} % DE L'APPORT`;
+            document.getElementById('allocDynamicBar').style.width = `${(allocRatio * 100).toFixed(0)}%`;
+            document.getElementById('allocDynamicAmountText').innerText = `Montant Suggéré : $ ${stockAmount.toFixed(2)}`;
+            document.getElementById('allocEtfAmountText').innerText = `Reste vers ETF Socle : $ ${etfAmount.toFixed(2)}`;
         }
 
-        // SNAPSHOTS WITH ENRICHED DATA
+        // SNAPSHOTS & EVOLUTION TRACKER
         function saveSnapshot() {
             const ticker = document.getElementById('inputTicker').value.toUpperCase().trim();
             if(!ticker) return showToast('Veuillez entrer un Ticker.', 'error');
 
             const now = new Date();
-            const dateStr = now.toISOString().replace('T', ' ').substring(0, 16);
+            const dateStr = now.toISOString().replace('T', ' ').substring(0, 10);
 
             const snapshot = {
                 id: `${ticker}_${now.getTime()}`,
                 ticker: ticker,
                 name: document.getElementById('inputName').value,
                 timestamp: dateStr,
-                score: parseInt(document.getElementById('scoreDisplay').innerText),
-                p1: document.getElementById('scorePillar1').innerText,
-                p2: document.getElementById('scorePillar2').innerText,
-                p3: document.getElementById('scorePillar3').innerText,
+                garpScore: parseInt(document.getElementById('scoreDisplay').innerText),
+                bScore: document.getElementById('scoreBusinessSummary').innerText,
+                vScore: document.getElementById('scoreValuationSummary').innerText,
                 notes: document.getElementById('thesisNotes').value
             };
 
@@ -883,10 +1074,8 @@
             snapshots.unshift(snapshot);
             localStorage.setItem(STORAGE_KEY, JSON.stringify(snapshots));
 
-            // Auto Add to Watchlist
-            addToWatchlist(ticker, snapshot.name, snapshot.score);
-
-            showToast(`Snapshot enregistré pour ${ticker} !`);
+            addToWatchlist(ticker, snapshot.name, snapshot.garpScore);
+            showToast(`Snapshot V5 enregistré pour ${ticker} !`);
             renderHistoryTable();
         }
 
@@ -895,20 +1084,20 @@
             const tbody = document.getElementById('historyTableBody');
 
             if(snapshots.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-baggr-muted">Aucun snapshot enregistré.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-mono-muted">Aucune étape d'évolution enregistrée.</td></tr>`;
                 return;
             }
 
             tbody.innerHTML = snapshots.map(s => `
-                <tr class="hover:bg-slate-800/40">
-                    <td class="p-2 font-mono text-baggr-muted">${s.timestamp}</td>
-                    <td class="p-2 font-bold text-emerald-400">${s.ticker}</td>
-                    <td class="p-2 text-slate-300">${s.name}</td>
-                    <td class="p-2 font-bold text-white">${s.score} / 100</td>
-                    <td class="p-2 text-xs text-baggr-muted">${s.p1} | ${s.p2} | ${s.p3}</td>
+                <tr class="hover:bg-white/5">
+                    <td class="p-2 font-mono text-mono-muted">${s.timestamp}</td>
+                    <td class="p-2 font-bold text-white">${s.ticker}</td>
+                    <td class="p-2 font-bold text-white">${s.garpScore} / 100</td>
+                    <td class="p-2 text-slate-300">${s.bScore}</td>
+                    <td class="p-2 text-slate-300">${s.vScore}</td>
                     <td class="p-2 text-slate-400 truncate max-w-xs">${s.notes || '--'}</td>
                     <td class="p-2 text-right">
-                        <button onclick="deleteSnapshot('${s.id}')" class="text-rose-400 hover:text-rose-300 font-bold">Supprimer</button>
+                        <button onclick="deleteSnapshot('${s.id}')" class="text-slate-400 hover:text-white font-bold">Supprimer</button>
                     </td>
                 </tr>
             `).join('');
@@ -922,7 +1111,7 @@
             showToast("Snapshot supprimé.");
         }
 
-        // WATCHLIST DRAWER SYSTEM (IMAGE 2 STYLE)
+        // WATCHLIST SYSTEM
         function toggleWatchlistDrawer() {
             const drawer = document.getElementById('watchlistDrawer');
             drawer.classList.toggle('translate-x-full');
@@ -944,24 +1133,19 @@
 
             const container = document.getElementById('watchlistContent');
             if(watchlist.length === 0) {
-                container.innerHTML = `<div class="p-4 text-center text-baggr-muted text-xs">Aucune action dans la watchlist.</div>`;
+                container.innerHTML = `<div class="p-4 text-center text-mono-muted text-xs">Aucune action dans la watchlist.</div>`;
                 return;
             }
 
             container.innerHTML = watchlist.map(item => `
-                <div class="p-3 rounded-lg bg-[#111622] border border-baggr-border hover:border-emerald-500/50 flex justify-between items-center transition group">
-                    <div class="flex items-center space-x-3">
-                        <div class="p-2 rounded bg-emerald-500/10 text-emerald-400">
-                            <i data-lucide="trending-up" class="w-4 h-4"></i>
-                        </div>
-                        <div>
-                            <div class="font-bold text-white text-sm">${item.ticker}</div>
-                            <div class="text-[10px] text-baggr-muted">${item.name}</div>
-                        </div>
+                <div class="p-3 rounded-lg bg-mono-card border border-mono-border hover:border-white/50 flex justify-between items-center transition">
+                    <div>
+                        <div class="font-bold text-white text-sm">${item.ticker}</div>
+                        <div class="text-[10px] text-mono-muted">${item.name}</div>
                     </div>
                     <div class="flex items-center space-x-2">
-                        <span class="px-2 py-0.5 rounded text-xs font-bold bg-emerald-500/20 text-emerald-400">${item.score} pts</span>
-                        <button onclick="removeFromWatchlist('${item.ticker}')" class="text-baggr-muted hover:text-rose-400">
+                        <span class="px-2 py-0.5 rounded text-xs font-bold bg-white text-black">${item.score} pts</span>
+                        <button onclick="removeFromWatchlist('${item.ticker}')" class="text-mono-muted hover:text-white">
                             <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
                         </button>
                     </div>
@@ -1000,22 +1184,16 @@
             const tbody = document.getElementById('compareTableBody');
             tbody.innerHTML = `
                 <tr>
-                    <td class="p-2.5 font-semibold text-slate-300">Score GARP</td>
-                    <td class="p-2.5 font-bold text-emerald-400">${itemA ? itemA.score + ' / 100' : '--'}</td>
-                    <td class="p-2.5 font-bold text-blue-400">${itemB ? itemB.score + ' / 100' : '--'}</td>
-                    <td class="p-2.5 font-bold text-purple-400">${itemC ? itemC.score + ' / 100' : '--'}</td>
+                    <td class="p-2.5 font-semibold text-slate-300">GARP Score V5</td>
+                    <td class="p-2.5 font-bold text-white">${itemA ? itemA.garpScore + ' / 100' : '--'}</td>
+                    <td class="p-2.5 font-bold text-white">${itemB ? itemB.garpScore + ' / 100' : '--'}</td>
+                    <td class="p-2.5 font-bold text-white">${itemC ? itemC.garpScore + ' / 100' : '--'}</td>
                 </tr>
                 <tr>
-                    <td class="p-2.5 font-semibold text-slate-300">Pilier 1 (Qualité)</td>
-                    <td class="p-2.5">${itemA ? itemA.p1 : '--'}</td>
-                    <td class="p-2.5">${itemB ? itemB.p1 : '--'}</td>
-                    <td class="p-2.5">${itemC ? itemC.p1 : '--'}</td>
-                </tr>
-                <tr>
-                    <td class="p-2.5 font-semibold text-slate-300">Pilier 2 (Valo)</td>
-                    <td class="p-2.5">${itemA ? itemA.p2 : '--'}</td>
-                    <td class="p-2.5">${itemB ? itemB.p2 : '--'}</td>
-                    <td class="p-2.5">${itemC ? itemC.p2 : '--'}</td>
+                    <td class="p-2.5 font-semibold text-slate-300">Business Score</td>
+                    <td class="p-2.5">${itemA ? itemA.bScore : '--'}</td>
+                    <td class="p-2.5">${itemB ? itemB.bScore : '--'}</td>
+                    <td class="p-2.5">${itemC ? itemC.bScore : '--'}</td>
                 </tr>
             `;
         }
@@ -1025,9 +1203,9 @@
             const blob = new Blob([data], { type: 'application/json' });
             const a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
-            a.download = `baggr_terminal_snapshots_${new Date().toISOString().split('T')[0]}.json`;
+            a.download = `garp_terminal_v5_export_${new Date().toISOString().split('T')[0]}.json`;
             a.click();
-            showToast("Fichier JSON exporté.");
+            showToast("Exportation JSON réussie.");
         }
 
         window.onload = function() {
